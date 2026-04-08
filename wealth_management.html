@@ -29,7 +29,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
 /* ── TRUST MODAL ── */
 #trust-modal{position:fixed;inset:0;background:rgba(15,31,61,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(8px)}
 .trust-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:2rem;max-width:520px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(26,111,212,0.12)}
@@ -80,11 +79,7 @@ header.visible{display:flex}
   padding:2rem;
   transition:all 0.2s;
 }
-#hero.collapsed{
-  min-height:auto;
-  padding:1rem 1.5rem 2rem;
-  align-items:flex-start;
-}
+
 
 /* responsive 4-square grid that adapts perfectly */
 .overview-grid{
@@ -95,11 +90,8 @@ header.visible{display:flex}
   max-width: 680px;
   transition:var(--transition);
 }
-#hero.collapsed .overview-grid{
-  width:100%;
-  max-width:1200px;
-  grid-template-columns:repeat(4, 1fr);
-  gap:1rem;
+.section-panel {
+  margin-bottom: 10px;
 }
 
 .score-card{
@@ -174,6 +166,7 @@ main.visible{display:block}
   margin-top:10px;
 }
 
+
 /* SCALE TEXT */
 .nw-scale{
   display:flex;
@@ -243,30 +236,117 @@ position: relative;
 .si-value.red{color:var(--accent-red);font-weight:500}
 
 /* ── PRINT STYLES ── */
+
+
 @media print {
-  body{background:white;margin:0;padding:0}
-  #trust-modal, .btn-icon, .click-hint, header .btn-icon, .header-actions, .offline-badge, .score-card .click-hint{display:none !important}
-  #hero.collapsed .overview-grid{grid-template-columns:repeat(4,1fr) !important; gap:1rem;}
-  .score-card{border:1px solid #ccc; break-inside:avoid}
-  header, main, #hero.collapsed, #hero{display:block !important; min-height:auto; padding:0.5rem}
-  .section-panel{display:block !important}
-  .networth-section{border:1px solid #ccc}
-  .form-section{break-inside:avoid}
-  .summary-table td, .summary-table th{font-size:9pt}
-  a, button, .btn-icon{display:none}
-  main{padding:0 0.3rem}
+
+  
+
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  body {
+    background: white;
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
+    overflow: visible !important;
+  }
+
+  #trust-modal,
+  .btn-icon,
+  .click-hint,
+  .header-actions,
+  .offline-badge {
+    display: none !important;
+  }
+
+  #hero,
+  main,
+  #main-content {
+    display: block !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+.overview-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-@media(max-width:760px){
-  #hero.collapsed .overview-grid{grid-template-columns:repeat(2,1fr); gap:0.8rem}
-  .score-card{padding:0.9rem}
-  .sc-value{font-size:1rem}
-  .card-emoji{font-size:1.3rem}
+.form-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
 }
-@media(max-width:480px){
-  #hero.collapsed .overview-grid{gap:0.7rem}
-  .score-card{padding:0.7rem}
-  .sc-value{font-size:0.9rem}
+
+.surplus-card {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+  .section-panel {
+    display: block !important;
+    margin-bottom: 10px;
+  }
+
+  .score-card {
+    page-break-inside: avoid;
+    margin-bottom: 10px;
+  }
+
+  .summary-table {
+    width: 100%;
+    font-size: 10px;
+  }
+
+  .summary-table th,
+  .summary-table td {
+    padding: 4px;
+  }
+
+
+ 
+
+  /* Hide UI buttons */
+  
+  /* Prevent content breaking badly */
+  .networth-section,
+  .form-section,
+  .surplus-card,
+  .summary-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* REMOVE forced page breaks */
+ .section-panel {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+  /* Improve spacing */
+  .form-grid {
+    gap: 10px;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  /* Table fix */
+  .summary-table {
+    width: 100%;
+    font-size: 10px;
+  }
+
+  .summary-table th,
+  .summary-table td {
+    padding: 4px;
+  }
+
 }
 </style>
 </head>
