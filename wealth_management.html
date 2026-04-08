@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Finance Doctor – Financial Scorecard</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
@@ -23,187 +23,250 @@
   --expense-color: #e03b3b;
   --asset-color: #1a6fd4;
   --liability-color: #d97706;
-  --radius: 16px;
+  --radius: 20px;
   --radius-sm: 10px;
   --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
-/* ── TRUST BANNER ── */
+/* ── TRUST MODAL ── */
 #trust-modal{position:fixed;inset:0;background:rgba(15,31,61,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(8px)}
-.trust-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:2.5rem;max-width:520px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(26,111,212,0.12)}
+.trust-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:2rem;max-width:520px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(26,111,212,0.12)}
 .trust-icon{width:56px;height:56px;border-radius:50%;background:rgba(10,171,134,0.1);border:1.5px solid var(--accent-green);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:24px}
-.trust-card h2{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:.75rem;color:var(--text)}
-.trust-card p{color:var(--muted);font-size:.95rem;line-height:1.7;margin-bottom:1rem}
+.trust-card h2{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:.75rem}
+.trust-card p{color:var(--muted);font-size:.95rem;line-height:1.7}
 .trust-highlight{background:rgba(10,171,134,0.06);border:1px solid rgba(10,171,134,0.2);border-radius:var(--radius-sm);padding:.9rem 1.1rem;margin:.9rem 0;text-align:left}
 .trust-highlight .point{display:flex;align-items:flex-start;gap:.65rem;font-size:.88rem;color:var(--muted);margin-bottom:.55rem}
 .trust-highlight .point:last-child{margin-bottom:0}
 .trust-highlight .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-green);flex-shrink:0;margin-top:.35rem}
-.trust-highlight .point span{color:var(--text)}
-.btn-trust{background:var(--accent-green);color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.95rem;border:none;border-radius:var(--radius-sm);padding:.85rem 2.5rem;cursor:pointer;width:100%;margin-top:1rem;transition:var(--transition)}
-.btn-trust:hover{opacity:.9;transform:translateY(-1px)}
+.btn-trust{background:var(--accent-green);color:#fff;font-weight:600;border:none;border-radius:var(--radius-sm);padding:.85rem 2.5rem;cursor:pointer;width:100%;margin-top:1rem;transition:var(--transition)}
+.btn-trust:hover{opacity:.9}
 
-/* ── LAYOUT ── */
-header{padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);z-index:100;box-shadow:0 1px 12px rgba(26,111,212,0.07)}
-.logo{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);display:flex;align-items:center;gap:.6rem}
+/* ── HEADER ── */
+header{
+  display:none;
+  padding:0.8rem 1.8rem;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,0.94);
+  backdrop-filter:blur(12px);
+  position:sticky;
+  top:0;
+  z-index:100;
+  flex-wrap:wrap;
+  gap:0.75rem;
+}
+header.visible{display:flex}
+.logo{font-family:'DM Serif Display',serif;font-size:1.4rem;display:flex;align-items:center;gap:.6rem}
 .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-blue)}
-.header-right{display:flex;align-items:center;gap:1rem}
+.header-actions{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap}
 .offline-badge{display:flex;align-items:center;gap:.4rem;background:rgba(10,171,134,0.08);border:1px solid rgba(10,171,134,0.25);border-radius:20px;padding:.35rem .9rem;font-size:.78rem;font-weight:500;color:var(--accent-green)}
 .offline-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent-green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.btn-save{background:transparent;border:1px solid var(--border2);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.4rem 1rem;border-radius:8px;cursor:pointer;transition:var(--transition)}
-.btn-save:hover{border-color:var(--accent-blue);color:var(--accent-blue)}
+.btn-icon{background:transparent;border:1px solid var(--border2);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.4rem 1rem;border-radius:8px;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:6px}
+.btn-icon:hover{border-color:var(--accent-blue);color:var(--accent-blue);background:rgba(26,111,212,0.03)}
+.btn-icon.print-btn:hover{border-color:var(--accent-green);color:var(--accent-green)}
+.btn-icon.back-btn:hover{border-color:var(--accent-amber);color:var(--accent-amber)}
 
-main{max-width:1200px;margin:0 auto;padding:2rem 1.5rem 4rem}
+/* ── HERO: dynamic grid responsive ── */
+#hero{
+  width:100%;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+  transition:all 0.2s;
+}
+#hero.collapsed{
+  min-height:auto;
+  padding:1rem 1.5rem 2rem;
+  align-items:flex-start;
+}
 
-/* ── 2×2 OVERVIEW CARDS (no graphs) ── */
+/* responsive 4-square grid that adapts perfectly */
 .overview-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:1.25rem;
-  margin-bottom:2.5rem;
+  gap:1.5rem;
+  width:min(680px,100%);
+  max-width: 680px;
+  transition:var(--transition);
+}
+#hero.collapsed .overview-grid{
+  width:100%;
+  max-width:1200px;
+  grid-template-columns:repeat(4, 1fr);
+  gap:1rem;
 }
 
 .score-card{
   background:var(--surface);
-  border:1px solid var(--border);
+  border:1.5px solid var(--border);
   border-radius:var(--radius);
-  padding:1.6rem 1.6rem 1.4rem;
+  padding:1.5rem;
   cursor:pointer;
   transition:var(--transition);
   position:relative;
   overflow:hidden;
-  box-shadow:0 2px 8px rgba(26,111,212,0.05);
+  box-shadow:0 4px 20px rgba(26,111,212,0.07);
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  min-height:130px;
+  min-height:180px;
 }
+#hero.collapsed .score-card{
+  min-height:auto;
+  padding:1rem 1.1rem;
+}
+.score-card.active{
+  border-width:2.5px;
+  transform:translateY(-2px);
+}
+.score-card.income.active{border-color:var(--income-color); background:linear-gradient(135deg,#fff,rgba(10,171,134,0.05));}
+.score-card.expense.active{border-color:var(--expense-color); background:linear-gradient(135deg,#fff,rgba(224,59,59,0.05));}
+.score-card.assets.active{border-color:var(--asset-color); background:linear-gradient(135deg,#fff,rgba(26,111,212,0.05));}
+.score-card.liab.active{border-color:var(--liability-color); background:linear-gradient(135deg,#fff,rgba(217,119,6,0.05));}
 
-/* Colored left strip */
 .score-card::before{
   content:'';
   position:absolute;
-  top:0;left:0;bottom:0;
-  width:4px;
-  border-radius:var(--radius) 0 0 var(--radius);
-  transition:var(--transition);
+  top:0;left:0;right:0;
+  height:4px;
+  border-radius:var(--radius) var(--radius) 0 0;
 }
 .score-card.income::before{background:var(--income-color)}
 .score-card.expense::before{background:var(--expense-color)}
 .score-card.assets::before{background:var(--asset-color)}
 .score-card.liab::before{background:var(--liability-color)}
-
-.score-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,111,212,0.10)}
-.score-card.income.active{border-color:rgba(10,171,134,0.5);box-shadow:0 4px 20px rgba(10,171,134,0.12)}
-.score-card.expense.active{border-color:rgba(224,59,59,0.4);box-shadow:0 4px 20px rgba(224,59,59,0.10)}
-.score-card.assets.active{border-color:rgba(26,111,212,0.5);box-shadow:0 4px 20px rgba(26,111,212,0.12)}
-.score-card.liab.active{border-color:rgba(217,119,6,0.4);box-shadow:0 4px 20px rgba(217,119,6,0.10)}
-
-.card-top{display:flex;justify-content:space-between;align-items:flex-start}
-.sc-label{font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem}
+.score-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(26,111,212,0.12)}
+.card-emoji{font-size:2rem;line-height:1;opacity:0.55}
+#hero.collapsed .card-emoji{font-size:1.5rem}
+.card-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:.25rem;margin-top:.6rem}
+.sc-label{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 .sc-label.income{color:var(--income-color)}
 .sc-label.expense{color:var(--expense-color)}
 .sc-label.assets{color:var(--asset-color)}
 .sc-label.liab{color:var(--liability-color)}
-.sc-icon{font-size:1.5rem;opacity:.4;flex-shrink:0}
-.sc-value{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--text);margin:.1rem 0}
-.sc-sub{font-size:.74rem;color:var(--muted)}
-.click-hint{font-size:.7rem;color:var(--muted);opacity:.6;margin-top:.8rem;display:flex;align-items:center;gap:.3rem}
-.click-hint svg{width:11px;height:11px;flex-shrink:0}
+.sc-value{font-family:'JetBrains Mono',monospace;font-size:clamp(1.2rem,3vw,1.9rem);font-weight:500;word-break:break-word}
+#hero.collapsed .sc-value{font-size:1rem}
+.sc-sub{font-size:.7rem;color:var(--muted)}
+.click-hint{font-size:.62rem;color:var(--muted);opacity:.6;display:flex;align-items:center;gap:.2rem;margin-top:.5rem}
+#hero.collapsed .click-hint{display:none}
 
-/* ── NET WORTH BAR ── */
-.networth-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:2rem;box-shadow:0 2px 8px rgba(26,111,212,0.05)}
-.nw-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
-.nw-label{font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
-.nw-value{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:500}
+/* ── MAIN CONTENT ── */
+main{max-width:1280px;margin:0 auto;padding:0 1.5rem 3rem;display:none}
+main.visible{display:block}
+.networth-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.5rem;margin-bottom:2rem}
+.nw-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.nw-left{flex:1}
+.nw-right{text-align:right}
+.nw-label{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nw-value{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:500}
 .nw-value.positive{color:var(--accent-green)}
 .nw-value.negative{color:var(--accent-red)}
-.nw-bar-wrap{height:10px;background:var(--surface2);border-radius:10px;overflow:hidden;margin-bottom:.7rem}
-.nw-bar-inner{height:100%;border-radius:10px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);background:linear-gradient(90deg,var(--accent-blue),var(--accent-green))}
-.nw-legend{display:flex;gap:1.5rem;flex-wrap:wrap}
-.nw-leg-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--muted)}
-.nw-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.nw-bar-container{position:relative;margin:.8rem 0}
 
-/* ── SECTION PANELS ── */
-.section-panel{display:none;animation:fadeIn .3s ease}
+/* WRAPPER */
+.nw-bar-wrap{
+  margin-top:10px;
+}
+
+/* SCALE TEXT */
+.nw-scale{
+  display:flex;
+  justify-content:space-between;
+  font-size:0.7rem;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+/* BACKGROUND BAR */
+.nw-bar-bg{
+  width:100%;
+  height:20px;
+  background:var(--surface2);
+  border-radius:12px;
+  overflow:hidden;
+}
+
+/* INNER BAR */
+.nw-bar-inner{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#1a6fd4,#0aab86);
+  border-radius:12px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content: flex-end;
+position: relative;
+  padding-right:8px;
+  transition:width 0.6s ease;
+}
+
+/* % TEXT */
+#nw-percent-text{
+  font-size:0.75rem;
+  font-weight:600;
+  color:#fff;
+}
+.nw-percentage{text-align:right;font-size:.75rem;color:var(--accent-blue);margin-top:.3rem;font-family:'JetBrains Mono',monospace;font-weight:600}
+.nw-legend{display:flex;gap:1.5rem;font-size:.7rem;flex-wrap:wrap;margin-top:.5rem}
+.section-panel{display:none;animation:fadeIn .25s ease}
 .section-panel.visible{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .panel-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.panel-title{font-family:'DM Serif Display',serif;font-size:1.7rem;color:var(--text)}
-.panel-tag{font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .8rem;border-radius:20px}
-.panel-tag.income{background:rgba(0,212,170,0.12);color:var(--income-color)}
-.panel-tag.expense{background:rgba(255,107,107,0.12);color:var(--expense-color)}
-.panel-tag.assets{background:rgba(77,159,255,0.12);color:var(--asset-color)}
-.panel-tag.liab{background:rgba(245,166,35,0.12);color:var(--liability-color)}
-
-.form-grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
-@media(min-width:640px){.form-grid{grid-template-columns:1fr 1fr}}
-@media(min-width:960px){.form-grid.cols3{grid-template-columns:1fr 1fr 1fr}}
-
-.form-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;grid-column:span 1;box-shadow:0 2px 8px rgba(26,111,212,0.04)}
-.form-section.full{grid-column:1/-1}
-.fs-title{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.1rem;padding-bottom:.65rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
-.fs-title .fs-icon{font-size:.95rem}
-
-.field{margin-bottom:.9rem}
-.field:last-child{margin-bottom:0}
-.field label{display:block;font-size:.8rem;font-weight:500;color:var(--muted);margin-bottom:.35rem}
-.field input,.field select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;padding:.65rem .9rem;transition:var(--transition);outline:none}
-.field input:focus,.field select:focus{border-color:var(--accent-blue);box-shadow:0 0 0 3px rgba(26,111,212,0.1);background:#fff}
-.field input::placeholder{color:var(--muted);opacity:.5}
+.panel-title{font-family:'DM Serif Display',serif;font-size:1.6rem}
+.panel-tag{font-size:.7rem;font-weight:600;padding:.3rem .8rem;border-radius:20px;background:rgba(26,111,212,0.1)}
+.form-grid{display:grid;grid-template-columns:1fr;gap:1.2rem}
+@media(min-width:720px){.form-grid{grid-template-columns:1fr 1fr}}
+.form-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem}
+.fs-title{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:.65rem;margin-bottom:1rem}
+.field{margin-bottom:.85rem}
+.field label{font-size:.78rem;font-weight:500;color:var(--muted);margin-bottom:.2rem;display:block}
+.field input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;font-family:inherit;font-size:.9rem}
 .field .prefix{position:relative}
-.field .prefix input{padding-left:2.2rem}
-.field .prefix::before{content:'₹';position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:var(--accent-blue);font-size:.85rem;pointer-events:none;font-family:'JetBrains Mono',monospace;font-weight:500}
+.field .prefix input{padding-left:2rem}
+.field .prefix::before{content:'₹';position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--accent-blue);font-weight:500}
+.subtotal{background:var(--surface2);border-radius:8px;padding:.7rem 1rem;display:flex;justify-content:space-between;margin-top:.8rem}
+.surplus-card{background:linear-gradient(135deg,rgba(10,171,134,0.06),rgba(26,111,212,0.04));border:1px solid rgba(26,111,212,0.15);border-radius:var(--radius);padding:1.2rem;grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;text-align:center}
+.summary-section{background:var(--surface);border-radius:var(--radius);padding:1.2rem;margin-top:1.5rem}
+.summary-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.summary-table th{text-align:left;padding:.5rem .6rem;background:var(--surface2);font-size:.7rem}
+.summary-table td{padding:.5rem .6rem;border-bottom:1px solid var(--border)}
+.status-ok{color:var(--accent-green);font-weight:600}
+.status-warn{color:var(--accent-amber);font-weight:600}
+.si-value.green{color:var(--accent-green);font-weight:500}
+.si-value.red{color:var(--accent-red);font-weight:500}
 
-.subtotal{background:var(--surface2);border-radius:8px;padding:.8rem 1rem;margin-top:1rem;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border)}
-.subtotal-label{font-size:.8rem;color:var(--muted);font-weight:500}
-.subtotal-val{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:500}
-.subtotal-val.income{color:var(--income-color)}
-.subtotal-val.expense{color:var(--expense-color)}
-.subtotal-val.assets{color:var(--asset-color)}
-.subtotal-val.liab{color:var(--liability-color)}
+/* ── PRINT STYLES ── */
+@media print {
+  body{background:white;margin:0;padding:0}
+  #trust-modal, .btn-icon, .click-hint, header .btn-icon, .header-actions, .offline-badge, .score-card .click-hint{display:none !important}
+  #hero.collapsed .overview-grid{grid-template-columns:repeat(4,1fr) !important; gap:1rem;}
+  .score-card{border:1px solid #ccc; break-inside:avoid}
+  header, main, #hero.collapsed, #hero{display:block !important; min-height:auto; padding:0.5rem}
+  .section-panel{display:block !important}
+  .networth-section{border:1px solid #ccc}
+  .form-section{break-inside:avoid}
+  .summary-table td, .summary-table th{font-size:9pt}
+  a, button, .btn-icon{display:none}
+  main{padding:0 0.3rem}
+}
 
-.surplus-card{background:linear-gradient(135deg,rgba(10,171,134,0.06),rgba(26,111,212,0.04));border:1px solid rgba(26,111,212,0.15);border-radius:var(--radius);padding:1.4rem;grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;text-align:center}
-@media(max-width:600px){.surplus-card{grid-template-columns:1fr}}
-.surplus-item .si-label{font-size:.72rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.4rem}
-.surplus-item .si-value{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:500}
-.si-value.green{color:var(--accent-green)}
-.si-value.red{color:var(--accent-red)}
-
-/* ── SCORECARD SUMMARY ── */
-.summary-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-top:2rem;grid-column:1/-1;box-shadow:0 2px 8px rgba(26,111,212,0.04)}
-.summary-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.summary-table th{text-align:left;padding:.6rem .8rem;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);background:var(--surface2)}
-.summary-table td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
-.summary-table tr:last-child td{border-bottom:none}
-.summary-table tr:hover td{background:rgba(26,111,212,0.03)}
-.summary-table td:nth-child(2),.summary-table td:nth-child(3){font-family:'JetBrains Mono',monospace;font-size:.85rem}
-.status-ok{color:var(--accent-green);font-size:.78rem;font-weight:600}
-.status-fill{color:var(--muted);font-size:.78rem}
-.status-warn{color:var(--accent-amber);font-size:.78rem;font-weight:600}
-.td-insight{color:var(--muted);font-size:.78rem;line-height:1.5}
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--surface2)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:var(--accent-blue)}
-
-/* ── Responsive ── */
-@media(max-width:640px){
-  header{padding:1rem}
-  .logo{font-size:1.1rem}
-  main{padding:1.25rem 1rem 3rem}
-  .sc-value{font-size:1.4rem}
-  .nw-value{font-size:1.4rem}
-  .panel-title{font-size:1.35rem}
-  .form-section{padding:1.1rem}
-  .summary-table{font-size:.8rem}
-  .summary-table th,.summary-table td{padding:.5rem .5rem}
-  .overview-grid{grid-template-columns:1fr}
+@media(max-width:760px){
+  #hero.collapsed .overview-grid{grid-template-columns:repeat(2,1fr); gap:0.8rem}
+  .score-card{padding:0.9rem}
+  .sc-value{font-size:1rem}
+  .card-emoji{font-size:1.3rem}
+}
+@media(max-width:480px){
+  #hero.collapsed .overview-grid{gap:0.7rem}
+  .score-card{padding:0.7rem}
+  .sc-value{font-size:0.9rem}
 }
 </style>
 </head>
@@ -214,435 +277,350 @@ main{max-width:1200px;margin:0 auto;padding:2rem 1.5rem 4rem}
   <div class="trust-card">
     <div class="trust-icon">🔒</div>
     <h2>Your data stays with you</h2>
-    <p>This tool runs entirely in your browser. No internet connection needed after loading. Nothing is ever sent to any server.</p>
+    <p>Runs entirely offline in your browser. Nothing ever leaves this device.</p>
     <div class="trust-highlight">
-      <div class="point"><div class="dot"></div><span>All data is saved only in your browser's <strong>localStorage</strong> — on this device only</span></div>
-      <div class="point"><div class="dot"></div><span>Open <strong>DevTools → Network tab</strong> and verify: zero outgoing requests</span></div>
-      <div class="point"><div class="dot"></div><span>No login, no email, no signup — you are completely anonymous</span></div>
-      <div class="point"><div class="dot"></div><span>Close and reopen this file anytime — your data persists locally</span></div>
+      <div class="point"><div class="dot"></div><span>All data saved in <strong>localStorage</strong> — only on this device</span></div>
+      <div class="point"><div class="dot"></div><span>Zero external requests, fully anonymous</span></div>
+      <div class="point"><div class="dot"></div><span>Print or download as PDF anytime with full values</span></div>
     </div>
-    <p style="font-size:.82rem;color:var(--muted)">Finance Doctor never sees your financial data. This is your private workspace.</p>
     <button class="btn-trust" onclick="closeTrust()">I understand — open my scorecard</button>
   </div>
 </div>
 
 <!-- HEADER -->
-<header>
+<header id="main-header">
   <div class="logo"><div class="dot"></div>Finance Doctor</div>
-  <div class="header-right">
-    <span class="offline-badge">Offline — data stays local</span>
-    <button class="btn-save" onclick="clearAll()">Clear data</button>
+  <div class="header-actions">
+    <span class="offline-badge">🔒 Offline • local data</span>
+    <button class="btn-icon back-btn" id="backToCardsBtn">◀ Back to Dashboard</button>
+    <button class="btn-icon print-btn" id="printPdfBtn">🖨️ Print / Save as PDF</button>
+    <button class="btn-icon" onclick="clearAll()">🗑️ Clear data</button>
   </div>
 </header>
 
-<main>
-
-  <!-- 2×2 OVERVIEW CARDS (no graphs) -->
+<!-- HERO: 4 responsive cards -->
+<div id="hero">
   <div class="overview-grid">
-
-    <!-- Card 1: Income -->
     <div class="score-card income" onclick="openSection('income')" id="card-income">
-      <div class="card-top">
-        <div>
-          <div class="sc-label income">Monthly Income</div>
-          <div class="sc-value" id="disp-income">₹0</div>
-          <div class="sc-sub">Net take-home</div>
-        </div>
-        <div class="sc-icon">💰</div>
+      <div class="card-emoji">💰</div>
+      <div class="card-body">
+        <div class="sc-label income">Monthly Income</div>
+        <div class="sc-value" id="disp-income">₹0</div>
+        <div class="sc-sub">Net take-home</div>
       </div>
-      <div class="click-hint">
-        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Click to enter details
-      </div>
+      <div class="click-hint">↗ Click to edit</div>
     </div>
-
-    <!-- Card 2: Expenses -->
     <div class="score-card expense" onclick="openSection('expense')" id="card-expense">
-      <div class="card-top">
-        <div>
-          <div class="sc-label expense">Monthly Expenses</div>
-          <div class="sc-value" id="disp-expense">₹0</div>
-          <div class="sc-sub">Total outflows incl. EMIs</div>
-        </div>
-        <div class="sc-icon">🛒</div>
+      <div class="card-emoji">🛒</div>
+      <div class="card-body">
+        <div class="sc-label expense">Monthly Expenses</div>
+        <div class="sc-value" id="disp-expense">₹0</div>
+        <div class="sc-sub">Total outflows + EMIs</div>
       </div>
-      <div class="click-hint">
-        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Click to enter details
-      </div>
+      <div class="click-hint">↗ Click to edit</div>
     </div>
-
-    <!-- Card 3: Assets -->
     <div class="score-card assets" onclick="openSection('assets')" id="card-assets">
-      <div class="card-top">
-        <div>
-          <div class="sc-label assets">Total Assets</div>
-          <div class="sc-value" id="disp-assets">₹0</div>
-          <div class="sc-sub">Sum of all wealth</div>
-        </div>
-        <div class="sc-icon">💎</div>
+      <div class="card-emoji">💎</div>
+      <div class="card-body">
+        <div class="sc-label assets">Total Assets</div>
+        <div class="sc-value" id="disp-assets">₹0</div>
+        <div class="sc-sub">Wealth total</div>
       </div>
-      <div class="click-hint">
-        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Click to enter details
-      </div>
+      <div class="click-hint">↗ Click to edit</div>
     </div>
-
-    <!-- Card 4: Liabilities -->
     <div class="score-card liab" onclick="openSection('liab')" id="card-liab">
-      <div class="card-top">
-        <div>
-          <div class="sc-label liab">Total Liabilities</div>
-          <div class="sc-value" id="disp-liab">₹0</div>
-          <div class="sc-sub">Sum of all debt</div>
-        </div>
-        <div class="sc-icon">🏦</div>
+      <div class="card-emoji">🏦</div>
+      <div class="card-body">
+        <div class="sc-label liab">Total Liabilities</div>
+        <div class="sc-value" id="disp-liab">₹0</div>
+        <div class="sc-sub">Total debt</div>
       </div>
-      <div class="click-hint">
-        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Click to enter details
-      </div>
+      <div class="click-hint">↗ Click to edit</div>
     </div>
-
   </div>
+</div>
 
-  <!-- NET WORTH BAR -->
+<main id="main-content">
+  <!-- Networth bar with percentage -->
   <div class="networth-section">
-    <div class="nw-header">
-      <div>
-        <div class="nw-label">Net Worth</div>
-        <div class="nw-value positive" id="disp-networth">₹0</div>
-      </div>
-      <div style="text-align:right">
-        <div class="nw-label">Savings Rate</div>
-        <div class="nw-value" id="disp-savings-rate" style="color:var(--accent-purple)">—</div>
-      </div>
-    </div>
-    <div class="nw-bar-wrap"><div class="nw-bar-inner" id="nw-bar" style="width:0%"></div></div>
-    <div class="nw-legend">
-      <div class="nw-leg-item"><div class="nw-leg-dot" style="background:var(--asset-color)"></div>Assets: <span id="leg-assets" style="color:var(--text);margin-left:.2rem">₹0</span></div>
-      <div class="nw-leg-item"><div class="nw-leg-dot" style="background:var(--liability-color)"></div>Liabilities: <span id="leg-liab" style="color:var(--text);margin-left:.2rem">₹0</span></div>
-      <div class="nw-leg-item"><div class="nw-leg-dot" style="background:var(--accent-green)"></div>Monthly Surplus: <span id="leg-surplus" style="color:var(--text);margin-left:.2rem">₹0</span></div>
-    </div>
+    <div class="nw-label">NET WORTH</div>
+<div class="nw-value" id="disp-networth">₹0</div>
+
+<div class="nw-bar-wrap" style="margin-top:10px;">
+
+  <!-- SCALE -->
+  <div class="nw-scale">
+    <span>0%</span>
+    <span>50%</span>
+    <span>100%</span>
   </div>
 
-  <!-- ── INCOME SECTION ── -->
-  <div class="section-panel" id="panel-income">
-    <div class="panel-header">
-      <div class="panel-title">Income & Deductions</div>
-      <div class="panel-tag income">Monthly Amounts in ₹</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">💰</span>Monthly Income</div>
-        <div class="field"><label>Employment Salary (Take-Home)</label><div class="prefix"><input type="number" id="i_salary" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Bonus (monthly average)</label><div class="prefix"><input type="number" id="i_bonus" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Business / Agricultural Income</label><div class="prefix"><input type="number" id="i_business" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Spouse Income</label><div class="prefix"><input type="number" id="i_spouse" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Rent from Property</label><div class="prefix"><input type="number" id="i_rent" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Royalties / Dividends</label><div class="prefix"><input type="number" id="i_dividends" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Annuity / Pension Income</label><div class="prefix"><input type="number" id="i_pension" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">Gross Monthly Income</span><span class="subtotal-val income" id="sub-gross-income">₹0</span></div>
-      </div>
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">➖</span>Monthly Deductions</div>
-        <div class="field"><label>Provident Fund (PF)</label><div class="prefix"><input type="number" id="d_pf" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Pension Contribution</label><div class="prefix"><input type="number" id="d_pension" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Sec 80C (₹1.5L/yr → monthly)</label><div class="prefix"><input type="number" id="d_80c" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Sec 80D Health Insurance Premium</label><div class="prefix"><input type="number" id="d_80d" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">Total Deductions</span><span class="subtotal-val expense" id="sub-deductions">₹0</span></div>
-        <div class="subtotal" style="margin-top:.6rem;border-color:rgba(10,171,134,0.35);background:rgba(10,171,134,0.05)"><span class="subtotal-label" style="color:var(--accent-green);font-weight:600">✅ Net Monthly Income</span><span class="subtotal-val income" id="sub-net-income" style="font-size:1.1rem">₹0</span></div>
-      </div>
-    </div>
+  <!-- BAR -->
+  <div class="nw-bar-bg">
+    <div class="nw-bar-inner" id="nw-bar">
+
+      <!-- % TEXT -->
+      <span id="nw-percent-text">0%</span>
+
   </div>
 
-  <!-- ── EXPENSES SECTION ── -->
-  <div class="section-panel" id="panel-expense">
-    <div class="panel-header">
-      <div class="panel-title">Monthly Expenses</div>
-      <div class="panel-tag expense">Monthly Amounts in ₹</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">🛒</span>Monthly Expenses</div>
-        <div class="field"><label>Household & Food</label><div class="prefix"><input type="number" id="e_food" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Clothing & Personal Care</label><div class="prefix"><input type="number" id="e_clothing" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Rent / Housing</label><div class="prefix"><input type="number" id="e_rent" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Maintenance, Mobile, Utilities</label><div class="prefix"><input type="number" id="e_utilities" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Children (Education & Other)</label><div class="prefix"><input type="number" id="e_children" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Health & Medical</label><div class="prefix"><input type="number" id="e_health" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Transportation / Fuel / Gas</label><div class="prefix"><input type="number" id="e_transport" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Appliances / Replacement</label><div class="prefix"><input type="number" id="e_appliances" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Entertainment & Discretionary</label><div class="prefix"><input type="number" id="e_entertainment" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Travel & Holidays</label><div class="prefix"><input type="number" id="e_travel" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Car Insurance & Maintenance</label><div class="prefix"><input type="number" id="e_car_ins" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Health Insurance Premium</label><div class="prefix"><input type="number" id="e_health_ins" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Other Expenses</label><div class="prefix"><input type="number" id="e_other" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">Expenses Subtotal</span><span class="subtotal-val expense" id="sub-expenses">₹0</span></div>
-      </div>
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">🏦</span>EMIs (₹/month)</div>
-        <div class="field"><label>Home Loan EMI 1</label><div class="prefix"><input type="number" id="emi_home1" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Home Loan EMI 2</label><div class="prefix"><input type="number" id="emi_home2" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Car Loan EMI</label><div class="prefix"><input type="number" id="emi_car" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Personal Loan EMI</label><div class="prefix"><input type="number" id="emi_personal" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Education Loan EMI</label><div class="prefix"><input type="number" id="emi_edu" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Any Other EMI</label><div class="prefix"><input type="number" id="emi_other" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">EMIs Subtotal</span><span class="subtotal-val expense" id="sub-emis">₹0</span></div>
-        <div class="subtotal" style="margin-top:.6rem;border-color:rgba(224,59,59,0.3);background:rgba(224,59,59,0.04)"><span class="subtotal-label" style="color:var(--expense-color);font-weight:600">🔴 Total Monthly Outflow</span><span class="subtotal-val expense" id="sub-total-expense" style="font-size:1.1rem">₹0</span></div>
-      </div>
-      <div class="surplus-card">
-        <div class="surplus-item"><div class="si-label">Net Monthly Income</div><div class="si-value green" id="sur-income">₹0</div></div>
-        <div class="surplus-item"><div class="si-label">Total Expenses</div><div class="si-value red" id="sur-expense">₹0</div></div>
-        <div class="surplus-item"><div class="si-label">Monthly Surplus</div><div class="si-value green" id="sur-surplus">₹0</div></div>
-      </div>
-    </div>
+</div>
+
+<div id="nw-status" style="margin-top:8px;font-size:0.85rem;"></div>
   </div>
 
-  <!-- ── ASSETS SECTION ── -->
-  <div class="section-panel" id="panel-assets">
-    <div class="panel-header">
-      <div class="panel-title">Assets</div>
-      <div class="panel-tag assets">Current Market Value in ₹</div>
-    </div>
-    <div class="form-grid cols3">
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">💧</span>A. Liquidity (Savings & Cash)</div>
-        <div class="field"><label>Savings Accounts & Cash</label><div class="prefix"><input type="number" id="a_savings_cash" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Recurring Deposits (RDs)</label><div class="prefix"><input type="number" id="a_rd" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Short-Term Debt Funds</label><div class="prefix"><input type="number" id="a_stdf" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">Subtotal – Liquidity</span><span class="subtotal-val assets" id="sub-a">₹0</span></div>
-      </div>
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">🛡</span>B. Safety (Fixed / Protected)</div>
-        <div class="field"><label>PPF / EPF / PF</label><div class="prefix"><input type="number" id="a_ppf" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Fixed Deposits (FDs)</label><div class="prefix"><input type="number" id="a_fd" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>NSC / RBI Bonds</label><div class="prefix"><input type="number" id="a_nsc" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Annuity Accumulated Sum</label><div class="prefix"><input type="number" id="a_annuity" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Life Insurance (Surrender Value)</label><div class="prefix"><input type="number" id="a_li" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Primary Residence – Market Value</label><div class="prefix"><input type="number" id="a_primary_home" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">Subtotal – Safety</span><span class="subtotal-val assets" id="sub-b">₹0</span></div>
-      </div>
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">📈</span>C. Yield Enhancing (Growth)</div>
-        <div class="field"><label>Gold / Jewellery</label><div class="prefix"><input type="number" id="a_gold" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Gold ETFs / Gold Funds</label><div class="prefix"><input type="number" id="a_gold_etf" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Direct Stocks</label><div class="prefix"><input type="number" id="a_stocks" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Equity Mutual Funds</label><div class="prefix"><input type="number" id="a_mf" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>ULIPs</label><div class="prefix"><input type="number" id="a_ulip" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Bonds / Debentures</label><div class="prefix"><input type="number" id="a_bonds" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>International Equities / MFs</label><div class="prefix"><input type="number" id="a_intl" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Real Estate (Investment)</label><div class="prefix"><input type="number" id="a_realty" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Plots / Agricultural / Commercial</label><div class="prefix"><input type="number" id="a_plot" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Commodities / Art / Antiques</label><div class="prefix"><input type="number" id="a_commodities" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Any Other Assets</label><div class="prefix"><input type="number" id="a_other" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">Subtotal – Growth</span><span class="subtotal-val assets" id="sub-c">₹0</span></div>
-      </div>
-      <div class="surplus-card" style="background:linear-gradient(135deg,rgba(26,111,212,0.06),rgba(26,111,212,0.02));border-color:rgba(26,111,212,0.18)">
-        <div class="surplus-item"><div class="si-label">Liquidity (A)</div><div class="si-value" style="color:var(--asset-color)" id="sur-a">₹0</div></div>
-        <div class="surplus-item"><div class="si-label">Safety (B)</div><div class="si-value" style="color:var(--asset-color)" id="sur-b">₹0</div></div>
-        <div class="surplus-item"><div class="si-label">💎 Total Assets</div><div class="si-value" style="color:var(--asset-color);font-size:1.5rem" id="sur-total-assets">₹0</div></div>
-      </div>
-    </div>
-  </div>
+  <!-- INCOME PANEL -->
+  <div class="section-panel" id="panel-income"><div class="panel-header"><div class="panel-title">Income & Deductions</div><div class="panel-tag">Monthly ₹</div></div>
+  <div class="form-grid"><div class="form-section"><div class="fs-title">💰 Monthly Income</div>
+  <div class="field"><label>Employment Salary</label><div class="prefix"><input type="number" id="i_salary" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Bonus (avg)</label><div class="prefix"><input type="number" id="i_bonus" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Business/Agri</label><div class="prefix"><input type="number" id="i_business" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Spouse Income</label><div class="prefix"><input type="number" id="i_spouse" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Rent from Property</label><div class="prefix"><input type="number" id="i_rent" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Dividends/Royalties</label><div class="prefix"><input type="number" id="i_dividends" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Pension/Annuity</label><div class="prefix"><input type="number" id="i_pension" placeholder="0" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>Gross Monthly Income</span><span id="sub-gross-income">₹0</span></div></div>
+  <div class="form-section"><div class="fs-title">➖ Deductions</div>
+  <div class="field"><label>Provident Fund (PF)</label><div class="prefix"><input type="number" id="d_pf" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Pension Contribution</label><div class="prefix"><input type="number" id="d_pension" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Sec 80C (monthly avg)</label><div class="prefix"><input type="number" id="d_80c" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Sec 80D Health Ins.</label><div class="prefix"><input type="number" id="d_80d" placeholder="0" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>Total Deductions</span><span id="sub-deductions">₹0</span></div>
+  <div class="subtotal" style="background:rgba(10,171,134,0.08)"><span>✅ Net Monthly Income</span><span id="sub-net-income" style="font-weight:bold">₹0</span></div></div></div></div>
 
-  <!-- ── LIABILITIES SECTION ── -->
-  <div class="section-panel" id="panel-liab">
-    <div class="panel-header">
-      <div class="panel-title">Liabilities</div>
-      <div class="panel-tag liab">Outstanding Balance in ₹</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">⚡</span>Short Term Liabilities (&lt; 3 years)</div>
-        <div class="field"><label>Credit Card Outstanding</label><div class="prefix"><input type="number" id="l_cc" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Personal Loans</label><div class="prefix"><input type="number" id="l_personal" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Car Loan (&lt; 3 yrs remaining)</label><div class="prefix"><input type="number" id="l_car_st" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Education Loan (&lt; 3 yrs)</label><div class="prefix"><input type="number" id="l_edu_st" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Borrowings vs Life Insurance</label><div class="prefix"><input type="number" id="l_li_loan" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Accrued Income Taxes</label><div class="prefix"><input type="number" id="l_tax" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Any Other Short-Term</label><div class="prefix"><input type="number" id="l_other_st" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">Subtotal – Short Term</span><span class="subtotal-val liab" id="sub-st">₹0</span></div>
-      </div>
-      <div class="form-section">
-        <div class="fs-title"><span class="fs-icon">🏠</span>Long Term Liabilities (&gt; 3 years)</div>
-        <div class="field"><label>Outstanding Home Loan Principal</label><div class="prefix"><input type="number" id="l_home" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Outstanding Car Loan Principal</label><div class="prefix"><input type="number" id="l_car_lt" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Outstanding Education Loan</label><div class="prefix"><input type="number" id="l_edu_lt" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Loans to Purchase Investments</label><div class="prefix"><input type="number" id="l_invest" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Loans to Purchase Personal Assets</label><div class="prefix"><input type="number" id="l_personal_assets" placeholder="0" oninput="calc()"/></div></div>
-        <div class="field"><label>Any Other Long-Term</label><div class="prefix"><input type="number" id="l_other_lt" placeholder="0" oninput="calc()"/></div></div>
-        <div class="subtotal"><span class="subtotal-label">Subtotal – Long Term</span><span class="subtotal-val liab" id="sub-lt">₹0</span></div>
-        <div class="subtotal" style="margin-top:.6rem;border-color:rgba(217,119,6,0.3);background:rgba(217,119,6,0.04)"><span class="subtotal-label" style="color:var(--liability-color);font-weight:600">🔴 Total Liabilities</span><span class="subtotal-val liab" id="sub-total-liab" style="font-size:1.1rem">₹0</span></div>
-      </div>
-      <div class="summary-section">
-        <div class="fs-title" style="font-size:.8rem;margin-bottom:1rem"><span class="fs-icon">📊</span>Financial Health Scorecard Summary</div>
-        <div style="overflow-x:auto">
-        <table class="summary-table">
-          <thead><tr><th>Metric</th><th>Your Figure</th><th>Benchmark</th><th>Status</th><th>Insight</th></tr></thead>
-          <tbody id="summary-tbody"></tbody>
-        </table>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- EXPENSES PANEL -->
+  <div class="section-panel" id="panel-expense"><div class="panel-header"><div class="panel-title">Monthly Expenses</div><div class="panel-tag">₹</div></div>
+  <div class="form-grid"><div class="form-section"><div class="fs-title">🛒 Living Expenses</div>
+  <div class="field"><label>Household & Food</label><div class="prefix"><input type="number" id="e_food" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Clothing & Personal</label><div class="prefix"><input type="number" id="e_clothing" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Rent / Housing</label><div class="prefix"><input type="number" id="e_rent" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Utilities & Maintenance</label><div class="prefix"><input type="number" id="e_utilities" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Children Education</label><div class="prefix"><input type="number" id="e_children" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Health & Medical</label><div class="prefix"><input type="number" id="e_health" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Transport / Fuel</label><div class="prefix"><input type="number" id="e_transport" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Appliances Replacement</label><div class="prefix"><input type="number" id="e_appliances" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Entertainment</label><div class="prefix"><input type="number" id="e_entertainment" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Travel & Holidays</label><div class="prefix"><input type="number" id="e_travel" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Car Insurance & Maint</label><div class="prefix"><input type="number" id="e_car_ins" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Health Insurance Premium</label><div class="prefix"><input type="number" id="e_health_ins" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Other Expenses</label><div class="prefix"><input type="number" id="e_other" placeholder="0" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>Expenses Subtotal</span><span id="sub-expenses">₹0</span></div></div>
+  <div class="form-section"><div class="fs-title">🏦 EMIs (Monthly)</div>
+  <div class="field"><label>Home Loan EMI 1</label><div class="prefix"><input type="number" id="emi_home1" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Home Loan EMI 2</label><div class="prefix"><input type="number" id="emi_home2" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Car Loan EMI</label><div class="prefix"><input type="number" id="emi_car" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Personal Loan EMI</label><div class="prefix"><input type="number" id="emi_personal" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Education Loan EMI</label><div class="prefix"><input type="number" id="emi_edu" placeholder="0" oninput="calc()"/></div></div>
+  <div class="field"><label>Other EMI</label><div class="prefix"><input type="number" id="emi_other" placeholder="0" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>EMIs Subtotal</span><span id="sub-emis">₹0</span></div>
+  <div class="subtotal" style="background:rgba(224,59,59,0.05)"><span>🔴 Total Monthly Outflow</span><span id="sub-total-expense">₹0</span></div></div>
+  <div class="surplus-card"><div><div class="si-label">Net Monthly Income</div><div class="si-value green" id="sur-income">₹0</div></div><div><div class="si-label">Total Expenses</div><div class="si-value red" id="sur-expense">₹0</div></div><div><div class="si-label">Monthly Surplus</div><div class="si-value green" id="sur-surplus">₹0</div></div></div></div></div>
 
+  <!-- ASSETS PANEL -->
+  <div class="section-panel" id="panel-assets"><div class="panel-header"><div class="panel-title">Assets</div><div class="panel-tag">Market Value ₹</div></div>
+  <div class="form-grid"><div class="form-section"><div class="fs-title">💧 Liquidity</div><div class="field"><label>Savings & Cash</label><div class="prefix"><input type="number" id="a_savings_cash" oninput="calc()"/></div></div>
+  <div class="field"><label>Recurring Deposits</label><div class="prefix"><input type="number" id="a_rd" oninput="calc()"/></div></div>
+  <div class="field"><label>Short-Term Debt Funds</label><div class="prefix"><input type="number" id="a_stdf" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>Liquidity Total</span><span id="sub-a">₹0</span></div></div>
+  <div class="form-section"><div class="fs-title">🛡️ Safety</div><div class="field"><label>PPF / EPF</label><div class="prefix"><input type="number" id="a_ppf" oninput="calc()"/></div></div>
+  <div class="field"><label>Fixed Deposits</label><div class="prefix"><input type="number" id="a_fd" oninput="calc()"/></div></div>
+  <div class="field"><label>NSC / RBI Bonds</label><div class="prefix"><input type="number" id="a_nsc" oninput="calc()"/></div></div>
+  <div class="field"><label>Life Insurance (SV)</label><div class="prefix"><input type="number" id="a_li" oninput="calc()"/></div></div>
+  <div class="field"><label>Primary Residence</label><div class="prefix"><input type="number" id="a_primary_home" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>Safety Total</span><span id="sub-b">₹0</span></div></div>
+  <div class="form-section"><div class="fs-title">📈 Growth</div>
+  <div class="field"><label>Gold / Jewellery</label><div class="prefix"><input type="number" id="a_gold" oninput="calc()"/></div></div>
+  <div class="field"><label>Stocks</label><div class="prefix"><input type="number" id="a_stocks" oninput="calc()"/></div></div>
+  <div class="field"><label>Equity Mutual Funds</label><div class="prefix"><input type="number" id="a_mf" oninput="calc()"/></div></div>
+  <div class="field"><label>Real Estate (Inv)</label><div class="prefix"><input type="number" id="a_realty" oninput="calc()"/></div></div>
+  <div class="field"><label>Other Assets</label><div class="prefix"><input type="number" id="a_other" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>Growth Total</span><span id="sub-c">₹0</span></div></div>
+  <div class="surplus-card" style="background:rgba(26,111,212,0.04)"><div><span>Liquidity</span><div id="sur-a">₹0</div></div><div><span>Safety</span><div id="sur-b">₹0</div></div><div><span>💎 Total Assets</span><div id="sur-total-assets">₹0</div></div></div></div></div>
+
+  <!-- LIABILITIES PANEL -->
+  <div class="section-panel" id="panel-liab"><div class="panel-header"><div class="panel-title">Liabilities</div><div class="panel-tag">Outstanding ₹</div></div>
+  <div class="form-grid"><div class="form-section"><div class="fs-title">⚡ Short Term</div>
+  <div class="field"><label>Credit Card Outstanding</label><div class="prefix"><input type="number" id="l_cc" oninput="calc()"/></div></div>
+  <div class="field"><label>Personal Loans</label><div class="prefix"><input type="number" id="l_personal" oninput="calc()"/></div></div>
+  <div class="field"><label>Car Loan (&lt;3yrs)</label><div class="prefix"><input type="number" id="l_car_st" oninput="calc()"/></div></div>
+  <div class="field"><label>Tax Dues</label><div class="prefix"><input type="number" id="l_tax" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>Short Term Total</span><span id="sub-st">₹0</span></div></div>
+  <div class="form-section"><div class="fs-title">🏠 Long Term</div>
+  <div class="field"><label>Home Loan Principal</label><div class="prefix"><input type="number" id="l_home" oninput="calc()"/></div></div>
+  <div class="field"><label>Car Loan Principal (&gt;3y)</label><div class="prefix"><input type="number" id="l_car_lt" oninput="calc()"/></div></div>
+  <div class="field"><label>Education Loan</label><div class="prefix"><input type="number" id="l_edu_lt" oninput="calc()"/></div></div>
+  <div class="subtotal"><span>Long Term Total</span><span id="sub-lt">₹0</span></div>
+  <div class="subtotal"><span>🔴 Total Liabilities</span><span id="sub-total-liab">₹0</span></div></div>
+  <div class="summary-section"><div class="fs-title">📊 Financial Health Scorecard</div><div style="overflow-x:auto"><table class="summary-table" id="summary-table"><thead><tr><th>Metric</th><th>Your Figure</th><th>Benchmark</th><th>Status</th><th>Insight</th></tr></thead><tbody id="summary-tbody"></tbody></table></div></div></div></div>
 </main>
 
 <script>
-// ── SECTION TOGGLE ──
 const SECTIONS = ['income','expense','assets','liab'];
+let anyOpened = false;
+
 function openSection(id){
-  const wasActive = document.getElementById('card-'+id).classList.contains('active');
+  if(!anyOpened){
+    anyOpened = true;
+    document.getElementById('hero').classList.add('collapsed');
+    document.getElementById('main-header').classList.add('visible');
+    document.getElementById('main-content').classList.add('visible');
+  }
+  
+  // Remove active class from all cards and hide all panels
   SECTIONS.forEach(s=>{
     document.getElementById('card-'+s).classList.remove('active');
     document.getElementById('panel-'+s).classList.remove('visible');
   });
-  if(!wasActive){
-    document.getElementById('card-'+id).classList.add('active');
-    document.getElementById('panel-'+id).classList.add('visible');
-    setTimeout(()=>document.getElementById('panel-'+id).scrollIntoView({behavior:'smooth',block:'start'}),50);
-  }
+  
+  // Activate clicked section
+  document.getElementById('card-'+id).classList.add('active');
+  document.getElementById('panel-'+id).classList.add('visible');
+  setTimeout(()=>document.getElementById('panel-'+id).scrollIntoView({behavior:'smooth',block:'start'}),60);
 }
 
-// ── FORMATTING ──
+function backToCards(){
+  // Remove active state from all cards and panels
+  SECTIONS.forEach(s=>{
+    document.getElementById('card-'+s).classList.remove('active');
+    document.getElementById('panel-'+s).classList.remove('visible');
+  });
+
+  // 🔥 Restore original layout
+  document.getElementById('hero').classList.remove('collapsed');
+  document.getElementById('main-header').classList.remove('visible');
+  document.getElementById('main-content').classList.remove('visible');
+
+  // Reset flag
+  anyOpened = false;
+
+  // Scroll to top cards
+  document.getElementById('hero').scrollIntoView({
+    behavior:'smooth',
+    block:'start'
+  });
+}
+  
+
+
 function fmt(n){
-  if(isNaN(n)||n===null)return'₹0';
+  if(isNaN(n)||n===null||n==='') return '₹0';
   const abs=Math.abs(n);
-  if(abs>=10000000)return(n<0?'-':'')+'₹'+(abs/10000000).toFixed(2)+' Cr';
-  if(abs>=100000)return(n<0?'-':'')+'₹'+(abs/100000).toFixed(2)+' L';
-  if(abs>=1000)return(n<0?'-':'')+'₹'+(abs/1000).toFixed(1)+' K';
-  return(n<0?'-':'')+'₹'+Math.round(abs).toLocaleString('en-IN');
+  if(abs>=1e7) return (n<0?'-':'')+'₹'+(abs/1e7).toFixed(2)+' Cr';
+  if(abs>=1e5) return (n<0?'-':'')+'₹'+(abs/1e5).toFixed(2)+' L';
+  if(abs>=1e3) return (n<0?'-':'')+'₹'+(abs/1e3).toFixed(1)+' K';
+  return (n<0?'-':'')+'₹'+Math.round(abs).toLocaleString('en-IN');
 }
-function g(id){return parseFloat(document.getElementById(id)?.value)||0}
-function s(id,val){const el=document.getElementById(id);if(el)el.textContent=val}
+function g(id){ return parseFloat(document.getElementById(id)?.value) || 0; }
+function s(id,val){ let el=document.getElementById(id); if(el) el.textContent=val; }
 
-// ── MAIN CALC ──
 function calc(){
-  // Income
-  const grossIncome=g('i_salary')+g('i_bonus')+g('i_business')+g('i_spouse')+g('i_rent')+g('i_dividends')+g('i_pension');
-  const deductions=g('d_pf')+g('d_pension')+g('d_80c')+g('d_80d');
-  const netIncome=grossIncome-deductions;
-  // Expenses
+  const gross=g('i_salary')+g('i_bonus')+g('i_business')+g('i_spouse')+g('i_rent')+g('i_dividends')+g('i_pension');
+  const ded=g('d_pf')+g('d_pension')+g('d_80c')+g('d_80d');
+  const netIncome=gross-ded;
   const expenses=g('e_food')+g('e_clothing')+g('e_rent')+g('e_utilities')+g('e_children')+g('e_health')+g('e_transport')+g('e_appliances')+g('e_entertainment')+g('e_travel')+g('e_car_ins')+g('e_health_ins')+g('e_other');
   const emis=g('emi_home1')+g('emi_home2')+g('emi_car')+g('emi_personal')+g('emi_edu')+g('emi_other');
-  const totalExpense=expenses+emis;
-  const surplus=netIncome-totalExpense;
-  // Assets
+  const totalExp=expenses+emis;
+  const surplus=netIncome-totalExp;
   const subA=g('a_savings_cash')+g('a_rd')+g('a_stdf');
-  const subB=g('a_ppf')+g('a_fd')+g('a_nsc')+g('a_annuity')+g('a_li')+g('a_primary_home');
-  const subC=g('a_gold')+g('a_gold_etf')+g('a_stocks')+g('a_mf')+g('a_ulip')+g('a_bonds')+g('a_intl')+g('a_realty')+g('a_plot')+g('a_commodities')+g('a_other');
+  const subB=g('a_ppf')+g('a_fd')+g('a_nsc')+g('a_li')+g('a_primary_home');
+  const subC=g('a_gold')+g('a_stocks')+g('a_mf')+g('a_realty')+g('a_other');
   const totalAssets=subA+subB+subC;
-  // Liabilities
-  const subST=g('l_cc')+g('l_personal')+g('l_car_st')+g('l_edu_st')+g('l_li_loan')+g('l_tax')+g('l_other_st');
-  const subLT=g('l_home')+g('l_car_lt')+g('l_edu_lt')+g('l_invest')+g('l_personal_assets')+g('l_other_lt');
+  const subST=g('l_cc')+g('l_personal')+g('l_car_st')+g('l_tax');
+  const subLT=g('l_home')+g('l_car_lt')+g('l_edu_lt');
   const totalLiab=subST+subLT;
   const netWorth=totalAssets-totalLiab;
-  const savingsRate=grossIncome?((surplus/grossIncome)*100):0;
+  // ✅ Calculate percentage
+const totalCapital = totalAssets + totalLiab;
 
-  // Update income panel
-  s('sub-gross-income',fmt(grossIncome));
-  s('sub-deductions',fmt(deductions));
-  s('sub-net-income',fmt(netIncome));
-  // Update expense panel
-  s('sub-expenses',fmt(expenses));
-  s('sub-emis',fmt(emis));
-  s('sub-total-expense',fmt(totalExpense));
-  s('sur-income',fmt(netIncome));
-  s('sur-expense',fmt(totalExpense));
-  s('sur-surplus',fmt(surplus));
-  // Update assets panel
-  s('sub-a',fmt(subA));s('sub-b',fmt(subB));s('sub-c',fmt(subC));
-  s('sur-a',fmt(subA));s('sur-b',fmt(subB));
-  s('sur-total-assets',fmt(totalAssets));
-  // Update liab panel
-  s('sub-st',fmt(subST));s('sub-lt',fmt(subLT));
-  s('sub-total-liab',fmt(totalLiab));
-  // Overview cards
-  s('disp-income',fmt(netIncome));
-  s('disp-expense',fmt(totalExpense));
-  s('disp-assets',fmt(totalAssets));
-  s('disp-liab',fmt(totalLiab));
+let percent = 0;
 
-  // Net worth bar
-  const nwEl=document.getElementById('disp-networth');
-  nwEl.textContent=fmt(netWorth);
+if(totalCapital > 0){
+  percent = (totalAssets / totalCapital) * 100;
+}
+
+percent = Math.min(100, percent);
+  const savingsRate=gross?((surplus/gross)*100):0;
+  
+
+  
+  // Update UI elements
+  s('sub-gross-income',fmt(gross)); s('sub-deductions',fmt(ded)); s('sub-net-income',fmt(netIncome));
+  s('sub-expenses',fmt(expenses)); s('sub-emis',fmt(emis)); s('sub-total-expense',fmt(totalExp));
+  s('sur-income',fmt(netIncome)); s('sur-expense',fmt(totalExp)); s('sur-surplus',fmt(surplus));
+  s('sub-a',fmt(subA)); s('sub-b',fmt(subB)); s('sub-c',fmt(subC));
+  s('sur-a',fmt(subA)); s('sur-b',fmt(subB)); s('sur-total-assets',fmt(totalAssets));
+  s('sub-st',fmt(subST)); s('sub-lt',fmt(subLT)); s('sub-total-liab',fmt(totalLiab));
+  s('disp-income',fmt(netIncome)); s('disp-expense',fmt(totalExp)); s('disp-assets',fmt(totalAssets)); s('disp-liab',fmt(totalLiab));
+  
+  const nwEl=document.getElementById('disp-networth'); 
+  nwEl.textContent=fmt(netWorth); 
   nwEl.className='nw-value '+(netWorth>=0?'positive':'negative');
-  const pctBar=totalAssets?(Math.min((totalAssets/(totalAssets+totalLiab||1))*100,100)):0;
-  document.getElementById('nw-bar').style.width=pctBar+'%';
-  s('disp-savings-rate',savingsRate.toFixed(1)+'%');
-  s('leg-assets',fmt(totalAssets));
-  s('leg-liab',fmt(totalLiab));
-  s('leg-surplus',fmt(surplus));
+  
+  // Update bar width and percentage display
+const bar = document.getElementById('nw-bar');
+const text = document.getElementById('nw-percent-text');
 
-  // Summary table
+bar.style.width = percent + '%';
+text.textContent = percent.toFixed(0) + '%';
+
+/* Fix visibility when bar is small */
+if(percent < 15){
+  text.style.color = "var(--text)";
+}else{
+  text.style.color = "#fff";
+}
+const statusEl = document.getElementById('nw-status');
+
+if(percent >= 80){
+  statusEl.textContent = "💪 Strong financial position (low debt)";
+  statusEl.style.color = "var(--accent-green)";
+}
+else if(percent >= 50){
+  statusEl.textContent = "🙂 Balanced (assets ≈ liabilities)";
+  statusEl.style.color = "var(--accent-blue)";
+}
+else if(percent > 0){
+  statusEl.textContent = "⚠️ High liabilities compared to assets";
+  statusEl.style.color = "var(--accent-amber)";
+}
+else{
+  statusEl.textContent = "🚨 No assets yet — start building wealth";
+  statusEl.style.color = "var(--accent-red)";
+}
+
+ 
   const alRatio=totalLiab?totalAssets/totalLiab:null;
   const rows=[
-    ['Monthly Income (₹)',fmt(netIncome),'—','→ Fill data above','Gross take-home after deductions'],
-    ['Monthly Expenses (₹)',fmt(totalExpense),'—','→ Fill data above','Total outflows incl. EMIs'],
-    ['Monthly Surplus (₹)',fmt(surplus),'> 0',surplus>0?'✅ Positive':'⚠ Negative','Must be positive — this is your savings engine'],
-    ['Savings Rate (%)',savingsRate.toFixed(1)+'%','> 20%',savingsRate>=20?'✅ On track':savingsRate>0?'⚠ Below 20%':'→ Fill data above','Aim for 20%+ of income saved'],
-    ['Total Assets (₹)',fmt(totalAssets),'—','→ Fill data above','Sum of all your wealth'],
-    ['Total Liabilities (₹)',fmt(totalLiab),'—','→ Fill data above','Sum of all debt outstanding'],
-    ['Net Worth (₹)',fmt(netWorth),'> 0',netWorth>0?'✅ Positive':netWorth<0?'⚠ Negative':'→ Fill data above','Assets minus Liabilities — the real number'],
-    ['Asset-to-Liability Ratio',alRatio?alRatio.toFixed(2)+'x':'Debt Free','> 2x',alRatio===null?'✅ Debt Free':alRatio>=2?'✅ Healthy':alRatio>=1?'⚠ Watch':'⚠ High Debt','Assets should be 2x+ your liabilities'],
-    ['Annual Savings (₹)',fmt(surplus*12),'—','→ Fill data above','Surplus × 12 months'],
-    ['Annual Income (₹)',fmt(netIncome*12),'—','→ Fill data above','Income × 12 months'],
+    ['Monthly Income',fmt(netIncome),'—','→ edit','Net take-home'],
+    ['Monthly Expenses',fmt(totalExp),'—','→ edit','Incl. EMIs'],
+    ['Monthly Surplus',fmt(surplus),'>0',surplus>0?'✅ Positive':'⚠ Negative','Savings engine'],
+    ['Savings Rate',savingsRate.toFixed(1)+'%','>20%',savingsRate>=20?'✅ On track':savingsRate>0?'⚠ Below 20%':'→ Fill','Target 20%+'],
+    ['Total Assets',fmt(totalAssets),'—','→ edit','Wealth sum'],
+    ['Total Liabilities',fmt(totalLiab),'—','→ edit','Total debt'],
+    ['Net Worth',fmt(netWorth),'>0',netWorth>0?'✅ Positive':netWorth<0?'⚠ Negative':'→ Fill','Assets - Liabilities'],
+    ['Asset-to-Liability',alRatio?alRatio.toFixed(2)+'x':'Debt Free','>2x',alRatio===null?'✅ Debt Free':alRatio>=2?'✅ Healthy':alRatio>=1?'⚠ Moderate':'⚠ High Debt','Ideal >2x']
   ];
-  const tb=document.getElementById('summary-tbody');
-  tb.innerHTML='';
-  rows.forEach(r=>{
-    const tr=document.createElement('tr');
-    const statusClass=r[3].startsWith('✅')?'status-ok':r[3].startsWith('⚠')?'status-warn':'status-fill';
-    tr.innerHTML=`<td>${r[0]}</td><td>${r[1]}</td><td style="color:var(--muted)">${r[2]}</td><td class="${statusClass}">${r[3]}</td><td class="td-insight">${r[4]}</td>`;
-    tb.appendChild(tr);
-  });
-
+  const tb=document.getElementById('summary-tbody'); tb.innerHTML='';
+  rows.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r[0]}</td><td><strong>${r[1]}</strong></td><td style="color:var(--muted)">${r[2]}</td><td class="${r[3].startsWith('✅')?'status-ok':r[3].startsWith('⚠')?'status-warn':'status-fill'}">${r[3]}</td><td class="td-insight">${r[4]}</td>`; tb.appendChild(tr); });
   saveData();
 }
+function gatherData(){ let data={}; document.querySelectorAll('input[id]').forEach(el=>{ data[el.id]=el.value; }); return data; }
+function saveData(){ try{ localStorage.setItem('fd_scorecard',JSON.stringify(gatherData())); }catch(e){} }
+function loadData(){ try{ let raw=localStorage.getItem('fd_scorecard'); if(raw){ let data=JSON.parse(raw); Object.keys(data).forEach(id=>{ let el=document.getElementById(id); if(el) el.value=data[id]; }); calc(); } }catch(e){} }
+function clearAll(){ if(confirm('Delete all local data? Reset everything.')){ localStorage.removeItem('fd_scorecard'); document.querySelectorAll('input[id]').forEach(el=>el.value=''); calc(); } }
+function closeTrust(){ document.getElementById('trust-modal').style.display='none'; localStorage.setItem('fd_trust_ok','1'); }
 
-// ── PERSIST ──
-function gatherData(){
-  const ids=Array.from(document.querySelectorAll('input[id]')).map(e=>e.id);
-  const data={};
-  ids.forEach(id=>{const el=document.getElementById(id);if(el)data[id]=el.value;});
-  return data;
-}
-function saveData(){
-  try{localStorage.setItem('fd_scorecard',JSON.stringify(gatherData()));}catch(e){}
-}
-function loadData(){
-  try{
-    const raw=localStorage.getItem('fd_scorecard');
-    if(!raw)return;
-    const data=JSON.parse(raw);
-    Object.keys(data).forEach(id=>{const el=document.getElementById(id);if(el)el.value=data[id];});
-    calc();
-  }catch(e){}
-}
-function clearAll(){
-  if(confirm('Clear all saved data? This cannot be undone.')){
-    localStorage.removeItem('fd_scorecard');
-    document.querySelectorAll('input[id]').forEach(el=>el.value='');
-    calc();
-  }
+function printPDF(){
+  window.print();
 }
 
-// ── TRUST MODAL ──
-function closeTrust(){
-  document.getElementById('trust-modal').style.display='none';
-  localStorage.setItem('fd_trust_ok','1');
-}
+document.getElementById('backToCardsBtn').addEventListener('click', backToCards);
+document.getElementById('printPdfBtn').addEventListener('click', printPDF);
 
-// ── INIT ──
 window.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('fd_trust_ok')==='1'){
-    document.getElementById('trust-modal').style.display='none';
-  }
+  if(localStorage.getItem('fd_trust_ok')==='1') document.getElementById('trust-modal').style.display='none';
   loadData();
-  document.querySelectorAll('input').forEach(el=>{
-    el.addEventListener('change',saveData);
-  });
+  document.querySelectorAll('input').forEach(el=>{ el.addEventListener('change',saveData); });
 });
 </script>
 </body>
