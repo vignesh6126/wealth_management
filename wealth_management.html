@@ -4,349 +4,297 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Finance Doctor – Financial Scorecard</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg: #f0f6ff;
-  --surface: #ffffff;
-  --surface2: #e8f1fc;
-  --border: #d0e2f7;
-  --border2: #b3cef0;
-  --text: #0f1f3d;
-  --muted: #5a7299;
-  --accent-green: #0aab86;
-  --accent-blue: #1a6fd4;
-  --accent-amber: #d97706;
-  --accent-red: #e03b3b;
-  --accent-purple: #6d4fe0;
-  --income-color: #0aab86;
-  --expense-color: #e03b3b;
-  --asset-color: #1a6fd4;
-  --liability-color: #d97706;
-  --radius: 20px;
-  --radius-sm: 10px;
-  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+:root{
+  --bg:#f0f4fa;
+  --surface:#ffffff;
+  --surface2:#e8eef8;
+  --surface3:#dce6f4;
+  --border:#cdd9ef;
+  --border2:#aec0e6;
+  --text:#0b1829;
+  --muted:#5a7299;
+  --faint:#8ba3c4;
+  --green:#00a878;
+  --green-light:rgba(0,168,120,.1);
+  --green-border:rgba(0,168,120,.25);
+  --blue:#1a5fd4;
+  --blue-light:rgba(26,95,212,.1);
+  --blue-border:rgba(26,95,212,.25);
+  --red:#d93550;
+  --red-light:rgba(217,53,80,.08);
+  --red-border:rgba(217,53,80,.2);
+  --amber:#d4790a;
+  --amber-light:rgba(212,121,10,.08);
+  --amber-border:rgba(212,121,10,.2);
+  --purple:#6d4fe0;
+  --r:18px;--rs:10px;
+  --tr:all .22s cubic-bezier(.4,0,.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-/* ── TRUST MODAL ── */
-#trust-modal{position:fixed;inset:0;background:rgba(15,31,61,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(8px)}
-.trust-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:2rem;max-width:520px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(26,111,212,0.12)}
-.trust-icon{width:56px;height:56px;border-radius:50%;background:rgba(10,171,134,0.1);border:1.5px solid var(--accent-green);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:24px}
-.trust-card h2{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:.75rem}
-.trust-card p{color:var(--muted);font-size:.95rem;line-height:1.7}
-.trust-highlight{background:rgba(10,171,134,0.06);border:1px solid rgba(10,171,134,0.2);border-radius:var(--radius-sm);padding:.9rem 1.1rem;margin:.9rem 0;text-align:left}
-.trust-highlight .point{display:flex;align-items:flex-start;gap:.65rem;font-size:.88rem;color:var(--muted);margin-bottom:.55rem}
-.trust-highlight .point:last-child{margin-bottom:0}
-.trust-highlight .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-green);flex-shrink:0;margin-top:.35rem}
-.btn-trust{background:var(--accent-green);color:#fff;font-weight:600;border:none;border-radius:var(--radius-sm);padding:.85rem 2.5rem;cursor:pointer;width:100%;margin-top:1rem;transition:var(--transition)}
-.btn-trust:hover{opacity:.9}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.5;}
+::selection{background:rgba(26,95,212,.15);color:var(--text)}
 
-/* ── HEADER ── */
-header{
-  display:none;
-  padding:0.8rem 1.8rem;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid var(--border);
-  background:rgba(255,255,255,0.94);
-  backdrop-filter:blur(12px);
-  position:sticky;
-  top:0;
-  z-index:100;
-  flex-wrap:wrap;
-  gap:0.75rem;
-}
+/* TRUST MODAL */
+#trust-modal{position:fixed;inset:0;background:rgba(8,18,40,.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(12px);}
+.trust-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:2.5rem 2rem;max-width:480px;width:100%;text-align:center;box-shadow:0 40px 100px rgba(26,95,212,.18),0 0 0 1px rgba(255,255,255,.5) inset;animation:zoomIn .35s cubic-bezier(.34,1.56,.64,1);}
+@keyframes zoomIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.trust-icon{width:68px;height:68px;border-radius:50%;background:var(--green-light);border:2px solid var(--green-border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:28px;}
+.trust-card h2{font-family:'Playfair Display',serif;font-size:1.85rem;margin-bottom:.6rem;color:var(--text);}
+.trust-card>p{color:var(--muted);line-height:1.7;font-size:.9rem}
+.trust-points{background:var(--green-light);border:1px solid var(--green-border);border-radius:var(--rs);padding:1rem 1.2rem;margin:1.1rem 0;text-align:left;}
+.tp{display:flex;align-items:flex-start;gap:.6rem;font-size:.84rem;color:var(--muted);margin-bottom:.5rem}
+.tp:last-child{margin-bottom:0}
+.tp-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:.35rem}
+.btn-trust{background:linear-gradient(135deg,var(--green),#008a62);color:#fff;font-weight:700;letter-spacing:.04em;border:none;border-radius:var(--rs);padding:.9rem 2rem;cursor:pointer;width:100%;margin-top:1rem;font-size:.92rem;font-family:'Syne',sans-serif;transition:var(--tr);}
+.btn-trust:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,168,120,.4)}
+
+/* HEADER */
+header{display:none;padding:.7rem 1.5rem;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(255,255,255,.97);backdrop-filter:blur(16px);position:sticky;top:0;z-index:100;gap:.75rem;flex-wrap:wrap;}
 header.visible{display:flex}
-.logo{font-family:'DM Serif Display',serif;font-size:1.4rem;display:flex;align-items:center;gap:.6rem}
-.logo .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-blue)}
-.header-actions{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap}
-.offline-badge{display:flex;align-items:center;gap:.4rem;background:rgba(10,171,134,0.08);border:1px solid rgba(10,171,134,0.25);border-radius:20px;padding:.35rem .9rem;font-size:.78rem;font-weight:500;color:var(--accent-green)}
-.offline-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent-green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.btn-icon{background:transparent;border:1px solid var(--border2);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.4rem 1rem;border-radius:8px;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:6px}
-.btn-icon:hover{border-color:var(--accent-blue);color:var(--accent-blue);background:rgba(26,111,212,0.03)}
-.btn-icon.print-btn:hover{border-color:var(--accent-green);color:var(--accent-green)}
-.btn-icon.back-btn:hover{border-color:var(--accent-amber);color:var(--accent-amber)}
+.logo{font-family:'Playfair Display',serif;font-size:1.25rem;display:flex;align-items:center;gap:.5rem;color:var(--text);}
+.logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-style:italic;font-family:'Playfair Display',serif;}
+.hdr-right{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.offline-pill{display:flex;align-items:center;gap:.4rem;background:var(--green-light);border:1px solid var(--green-border);border-radius:20px;padding:.28rem .75rem;font-size:.72rem;font-weight:600;color:var(--green);}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hbtn{background:transparent;border:1px solid var(--border2);color:var(--muted);font-family:'Syne',sans-serif;font-size:.76rem;font-weight:600;padding:.32rem .85rem;border-radius:8px;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;gap:5px;}
+.hbtn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.hbtn.back:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-light)}
+.hbtn.print:hover{border-color:var(--green);color:var(--green);background:var(--green-light)}
+.hbtn.danger:hover{border-color:var(--red);color:var(--red);background:var(--red-light)}
 
-/* ── HERO: dynamic grid responsive ── */
-#hero{
-  width:100%;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:2rem;
-  transition:all 0.2s;
-}
+/* DASHBOARD */
+#dashboard{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1.5rem;gap:2rem;}
+.dash-hero{text-align:center;max-width:500px}
+.dash-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);display:inline-flex;align-items:center;gap:.4rem;background:var(--blue-light);border:1px solid var(--blue-border);border-radius:20px;padding:.3rem .9rem;margin-bottom:1.2rem;}
+.dash-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,2.8rem);line-height:1.15;color:var(--text);margin-bottom:.6rem;}
+.dash-hero h1 em{color:var(--blue);font-style:italic}
+.dash-hero p{color:var(--muted);font-size:.88rem;line-height:1.7}
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;width:min(640px,100%);}
+.score-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:1.4rem;cursor:pointer;transition:var(--tr);position:relative;overflow:hidden;min-height:165px;display:flex;flex-direction:column;justify-content:space-between;}
+.score-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(26,95,212,.12);}
+.sc-stripe{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;}
+.c-income .sc-stripe{background:linear-gradient(90deg,#00a878,#00d4a0)}
+.c-expense .sc-stripe{background:linear-gradient(90deg,#d93550,#f0607a)}
+.c-assets .sc-stripe{background:linear-gradient(90deg,#1a5fd4,#5498ff)}
+.c-liab .sc-stripe{background:linear-gradient(90deg,#d4790a,#f5a832)}
+.sc-icon-wrap{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:.9rem;}
+.c-income .sc-icon-wrap{background:var(--green-light)}
+.c-expense .sc-icon-wrap{background:var(--red-light)}
+.c-assets .sc-icon-wrap{background:var(--blue-light)}
+.c-liab .sc-icon-wrap{background:var(--amber-light)}
+.sc-lbl{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;}
+.c-income .sc-lbl{color:var(--green)}
+.c-expense .sc-lbl{color:var(--red)}
+.c-assets .sc-lbl{color:var(--blue)}
+.c-liab .sc-lbl{color:var(--amber)}
+.sc-val{font-family:'JetBrains Mono',monospace;font-size:clamp(1.05rem,2.5vw,1.6rem);font-weight:500;color:var(--text);word-break:break-word;}
+.sc-sub{font-size:.7rem;color:var(--faint);margin-top:.2rem}
+.sc-cta{font-size:.66rem;color:var(--faint);margin-top:.7rem;display:flex;align-items:center;gap:.3rem;}
 
+/* SECTION VIEW */
+#section-view{display:none;padding:1.5rem;max-width:1080px;margin:0 auto;padding-bottom:5rem}
+#section-view.visible{display:block}
+.section-nav{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:.7rem 1rem;margin-top:10px;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap;}
+.nav-btn{display:flex;align-items:center;gap:.45rem;background:var(--surface2);border:1px solid var(--border2);border-radius:9px;padding:.45rem .95rem;font-family:'Syne',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:var(--tr);color:var(--muted);white-space:nowrap;}
+.nav-btn:hover:not(:disabled){background:var(--blue-light);border-color:var(--blue);color:var(--blue);}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed;pointer-events:none}
+.nav-center{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;justify-content:center}
+.nav-step{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;cursor:pointer;transition:var(--tr);color:var(--muted);background:transparent;font-family:'Syne',sans-serif;}
+.nav-step:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.nav-step.active-0{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.nav-step.active-1{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.nav-step.active-2{border-color:var(--blue);background:var(--blue-light);color:var(--blue)}
+.nav-step.active-3{border-color:var(--amber);background:var(--amber-light);color:var(--amber)}
+.nav-label{font-size:.72rem;color:var(--muted);font-weight:600}
 
-/* responsive 4-square grid that adapts perfectly */
-.overview-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:1.5rem;
-  width:min(680px,100%);
-  max-width: 680px;
-  transition:var(--transition);
-}
-.section-panel {
-  margin-bottom: 10px;
-}
+/* NET WORTH CARD */
+.nw-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem 1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+.nw-card::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(26,95,212,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none;}
+.nw-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem}
+.nw-lbl{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:.3rem}
+.nw-big{font-family:'JetBrains Mono',monospace;font-size:clamp(1.4rem,4vw,2rem);font-weight:500}
+.nw-big.pos{color:var(--green)}
+.nw-big.neg{color:var(--red)}
+.nw-ratio{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--muted)}
+.bar-row{margin-bottom:.35rem}
+.bar-scale{display:flex;justify-content:space-between;font-size:.65rem;color:var(--faint);margin-bottom:5px}
+.bar-track{background:var(--surface2);border-radius:20px;height:16px;overflow:hidden;border:1px solid var(--border)}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:20px;width:0%;transition:width .7s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:flex-end;padding-right:7px;min-width:0;}
+.bar-pct{font-size:.65rem;font-weight:700;color:#fff;white-space:nowrap}
+#nw-status{font-size:.8rem;margin-top:.5rem;font-weight:500}
 
-.score-card{
-  background:var(--surface);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  padding:1.5rem;
-  cursor:pointer;
-  transition:var(--transition);
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 4px 20px rgba(26,111,212,0.07);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  min-height:180px;
-}
-#hero.collapsed .score-card{
-  min-height:auto;
-  padding:1rem 1.1rem;
-}
-.score-card.active{
-  border-width:2.5px;
-  transform:translateY(-2px);
-}
-.score-card.income.active{border-color:var(--income-color); background:linear-gradient(135deg,#fff,rgba(10,171,134,0.05));}
-.score-card.expense.active{border-color:var(--expense-color); background:linear-gradient(135deg,#fff,rgba(224,59,59,0.05));}
-.score-card.assets.active{border-color:var(--asset-color); background:linear-gradient(135deg,#fff,rgba(26,111,212,0.05));}
-.score-card.liab.active{border-color:var(--liability-color); background:linear-gradient(135deg,#fff,rgba(217,119,6,0.05));}
-
-.score-card::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:4px;
-  border-radius:var(--radius) var(--radius) 0 0;
-}
-.score-card.income::before{background:var(--income-color)}
-.score-card.expense::before{background:var(--expense-color)}
-.score-card.assets::before{background:var(--asset-color)}
-.score-card.liab::before{background:var(--liability-color)}
-.score-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(26,111,212,0.12)}
-.card-emoji{font-size:2rem;line-height:1;opacity:0.55}
-#hero.collapsed .card-emoji{font-size:1.5rem}
-.card-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:.25rem;margin-top:.6rem}
-.sc-label{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
-.sc-label.income{color:var(--income-color)}
-.sc-label.expense{color:var(--expense-color)}
-.sc-label.assets{color:var(--asset-color)}
-.sc-label.liab{color:var(--liability-color)}
-.sc-value{font-family:'JetBrains Mono',monospace;font-size:clamp(1.2rem,3vw,1.9rem);font-weight:500;word-break:break-word}
-#hero.collapsed .sc-value{font-size:1rem}
-.sc-sub{font-size:.7rem;color:var(--muted)}
-.click-hint{font-size:.62rem;color:var(--muted);opacity:.6;display:flex;align-items:center;gap:.2rem;margin-top:.5rem}
-#hero.collapsed .click-hint{display:none}
-
-/* ── MAIN CONTENT ── */
-main{max-width:1280px;margin:0 auto;padding:0 1.5rem 3rem;display:none}
-main.visible{display:block}
-.networth-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.5rem;margin-bottom:2rem}
-.nw-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.nw-left{flex:1}
-.nw-right{text-align:right}
-.nw-label{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.nw-value{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:500}
-.nw-value.positive{color:var(--accent-green)}
-.nw-value.negative{color:var(--accent-red)}
-.nw-bar-container{position:relative;margin:.8rem 0}
-
-/* WRAPPER */
-.nw-bar-wrap{
-  margin-top:10px;
-}
-
-
-/* SCALE TEXT */
-.nw-scale{
-  display:flex;
-  justify-content:space-between;
-  font-size:0.7rem;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-
-/* BACKGROUND BAR */
-.nw-bar-bg{
-  width:100%;
-  height:20px;
-  background:var(--surface2);
-  border-radius:12px;
-  overflow:hidden;
-}
-
-/* INNER BAR */
-.nw-bar-inner{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#1a6fd4,#0aab86);
-  border-radius:12px;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content: flex-end;
-position: relative;
-  padding-right:8px;
-  transition:width 0.6s ease;
-}
-
-/* % TEXT */
-#nw-percent-text{
-  font-size:0.75rem;
-  font-weight:600;
-  color:#fff;
-}
-.nw-percentage{text-align:right;font-size:.75rem;color:var(--accent-blue);margin-top:.3rem;font-family:'JetBrains Mono',monospace;font-weight:600}
-.nw-legend{display:flex;gap:1.5rem;font-size:.7rem;flex-wrap:wrap;margin-top:.5rem}
-.section-panel{display:none;animation:fadeIn .25s ease}
-.section-panel.visible{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.panel-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.panel-title{font-family:'DM Serif Display',serif;font-size:1.6rem}
-.panel-tag{font-size:.7rem;font-weight:600;padding:.3rem .8rem;border-radius:20px;background:rgba(26,111,212,0.1)}
+/* PANEL */
+.panel{display:none;animation:panelIn .22s ease}
+.panel.visible{display:block}
+@keyframes panelIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+.panel-hdr{margin-bottom:1.5rem}
+.panel-hdr h2{font-family:'Playfair Display',serif;font-size:1.75rem;color:var(--text);}
+.panel-hdr p{color:var(--muted);font-size:.84rem;margin-top:.25rem}
 .form-grid{display:grid;grid-template-columns:1fr;gap:1.2rem}
-@media(min-width:720px){.form-grid{grid-template-columns:1fr 1fr}}
-.form-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem}
-.fs-title{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:.65rem;margin-bottom:1rem}
-.field{margin-bottom:.85rem}
-.field label{font-size:.78rem;font-weight:500;color:var(--muted);margin-bottom:.2rem;display:block}
-.field input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;font-family:inherit;font-size:.9rem}
-.field .prefix{position:relative}
-.field .prefix input{padding-left:2rem}
-.field .prefix::before{content:'₹';position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--accent-blue);font-weight:500}
-.subtotal{background:var(--surface2);border-radius:8px;padding:.7rem 1rem;display:flex;justify-content:space-between;margin-top:.8rem}
-.surplus-card{background:linear-gradient(135deg,rgba(10,171,134,0.06),rgba(26,111,212,0.04));border:1px solid rgba(26,111,212,0.15);border-radius:var(--radius);padding:1.2rem;grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;text-align:center}
-.summary-section{background:var(--surface);border-radius:var(--radius);padding:1.2rem;margin-top:1.5rem}
-.summary-table{width:100%;border-collapse:collapse;font-size:.85rem}
-.summary-table th{text-align:left;padding:.5rem .6rem;background:var(--surface2);font-size:.7rem}
-.summary-table td{padding:.5rem .6rem;border-bottom:1px solid var(--border)}
-.status-ok{color:var(--accent-green);font-weight:600}
-.status-warn{color:var(--accent-amber);font-weight:600}
-.si-value.green{color:var(--accent-green);font-weight:500}
-.si-value.red{color:var(--accent-red);font-weight:500}
+@media(min-width:600px){.form-grid{grid-template-columns:1fr 1fr}}
+.form-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem;}
+.fs-title{font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--border);padding-bottom:.6rem;margin-bottom:1rem;display:flex;align-items:center;gap:.4rem;}
+.field{margin-bottom:.78rem}
+.field label{font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:.28rem;display:block;}
+.pfx{position:relative}
+.pfx::before{content:'₹';position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--blue);font-weight:600;font-size:.88rem;pointer-events:none;}
+.pfx input{width:100%;padding:.52rem .75rem .52rem 1.9rem;background:var(--surface2);border:1px solid var(--border);border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--text);transition:var(--tr);outline:none;-moz-appearance:textfield;}
+.pfx input::-webkit-inner-spin-button,.pfx input::-webkit-outer-spin-button{-webkit-appearance:none}
+.pfx input:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(26,95,212,.1);}
+.subtotal{background:var(--surface2);border-radius:9px;padding:.6rem .9rem;display:flex;justify-content:space-between;align-items:center;margin-top:.7rem;font-size:.83rem;border:1px solid var(--border);}
+.subtotal strong{font-family:'JetBrains Mono',monospace;font-size:.88rem;}
+.subtotal.hi-green{background:var(--green-light);border-color:var(--green-border)}
+.subtotal.hi-red{background:var(--red-light);border-color:var(--red-border)}
+.subtotal.hi-blue{background:var(--blue-light);border-color:var(--blue-border)}
+.surplus-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;background:linear-gradient(135deg,rgba(0,168,120,.04),rgba(26,95,212,.04));border:1px solid var(--border2);border-radius:var(--r);padding:1.2rem;margin-top:0;}
+.sur-item{text-align:center}
+.sur-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-bottom:.35rem;font-weight:700}
+.sur-val{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:500}
+.sur-val.g{color:var(--green)}
+.sur-val.r{color:var(--red)}
+.sur-val.b{color:var(--blue)}
+.gen-wrap{display:flex;align-items:center;justify-content:center;margin:2.2rem 0 1rem;gap:1rem;flex-wrap:wrap;}
+.btn-generate{display:inline-flex;align-items:center;gap:.6rem;background:linear-gradient(135deg,var(--blue),#1e7cff);color:#fff;font-weight:700;border:none;border-radius:12px;padding:.88rem 2rem;cursor:pointer;font-family:'Syne',sans-serif;font-size:.88rem;transition:var(--tr);letter-spacing:.04em;box-shadow:0 4px 20px rgba(26,95,212,.35);}
+.btn-generate:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(26,95,212,.45);}
+.btn-generate svg{width:16px;height:16px;flex-shrink:0}
 
-/* ── PRINT STYLES ── */
+/* ── SUMMARY PAGE ── */
+#summary-page{
+  display:none;
+  min-height:100vh;
+  background:var(--bg);
+  padding:0 0 4rem;
+  animation:fadeUp .35s ease;
+}
+#summary-page.visible{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
+.sum-page-inner{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
 
-@media print {
+/* Hero band */
+.sum-hero{
+  background:linear-gradient(135deg,#0b1829 0%,#122348 100%);
+  padding:2.5rem 1.5rem 3rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:0;
+}
+.sum-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 50% 120%,rgba(26,95,212,.35),transparent);
+  pointer-events:none;
+}
+.sum-hero-eyebrow{
+  font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(139,163,196,.7);margin-bottom:1.2rem;
+  display:inline-flex;align-items:center;gap:.5rem;
+}
+.sum-hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,4vw,2.4rem);
+  color:#fff;margin-bottom:.5rem;
+}
+.sum-hero p{color:rgba(139,163,196,.8);font-size:.85rem}
 
-  
-
-  @page {
-    size: A4;
-    margin: 10mm;
-  }
-
-  body {
-    background: white;
-    margin: 0;
-    padding: 0;
-    font-size: 11px;
-    overflow: visible !important;
-  }
-
-  #trust-modal,
-  .btn-icon,
-  .click-hint,
-  .header-actions,
-  .offline-badge {
-    display: none !important;
-  }
-
-  #hero,
-  main,
-  #main-content {
-    display: block !important;
-    height: auto !important;
-    min-height: auto !important;
-  }
-
-.overview-grid {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr);
+/* Grade badge */
+.grade-badge{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:90px;height:90px;border-radius:50%;
+  border:3px solid;margin:1.5rem auto .5rem;
+  font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:600;
+  position:relative;z-index:1;
+  box-shadow:0 0 40px rgba(0,0,0,.4);
+}
+.grade-subtitle{
+  font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:0;position:relative;z-index:1;
 }
 
-.form-grid {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr;
+/* Metrics strip */
+.metrics-strip{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:0 0 var(--r) var(--r);
+  overflow:hidden;
+  margin-bottom:2rem;
+  border-top:none;
+}
+@media(max-width:540px){.metrics-strip{grid-template-columns:repeat(2,1fr)}}
+.metric-cell{
+  padding:1.1rem 1rem;
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  text-align:center;
+}
+.metric-cell:nth-child(3n){border-right:none}
+@media(max-width:540px){.metric-cell:nth-child(2n){border-right:none}}
+.mc-lbl{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.4rem;}
+.mc-val{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:500;}
+
+/* Analysis table */
+.analysis-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;margin-bottom:1.5rem;
+}
+.analysis-card-hdr{
+  padding:1rem 1.3rem;
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:flex;align-items:center;gap:.5rem;
+}
+.sc-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.sc-table th{text-align:left;padding:.55rem .9rem;background:var(--surface2);font-size:.62rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);}
+.sc-table td{padding:.6rem .9rem;border-bottom:1px solid var(--border);vertical-align:middle}
+.sc-table tr:last-child td{border-bottom:none}
+.sc-table td strong{font-family:'JetBrains Mono',monospace}
+.st-ok{color:var(--green);font-weight:700}
+.st-warn{color:var(--amber);font-weight:700}
+.st-na{color:var(--faint)}
+.st-fill{color:var(--muted)}
+
+/* Insight cards */
+.insight-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.insight-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:1.1rem 1.2rem;
+  border-left:3px solid var(--border2);
+}
+.insight-card.ok{border-left-color:var(--green)}
+.insight-card.warn{border-left-color:var(--amber)}
+.insight-card.bad{border-left-color:var(--red)}
+.ins-icon{font-size:1.3rem;margin-bottom:.5rem}
+.ins-title{font-size:.76rem;font-weight:700;margin-bottom:.25rem}
+.ins-body{font-size:.74rem;color:var(--muted);line-height:1.6}
+
+.sum-footer-note{
+  text-align:center;
+  font-size:.74rem;color:var(--faint);
+  padding:1.5rem;
+  border-top:1px solid var(--border);
+  margin-top:1rem;
 }
 
-.surplus-card {
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-  .section-panel {
-    display: block !important;
-    margin-bottom: 10px;
-  }
-
-  .score-card {
-    page-break-inside: avoid;
-    margin-bottom: 10px;
-  }
-
-  .summary-table {
-    width: 100%;
-    font-size: 10px;
-  }
-
-  .summary-table th,
-  .summary-table td {
-    padding: 4px;
-  }
-
-
- 
-
-  /* Hide UI buttons */
-  
-  /* Prevent content breaking badly */
-  .networth-section,
-  .form-section,
-  .surplus-card,
-  .summary-section {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* REMOVE forced page breaks */
- .section-panel {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-  /* Improve spacing */
-  .form-grid {
-    gap: 10px;
-  }
-
-  main {
-    padding: 0 !important;
-  }
-
-  /* Table fix */
-  .summary-table {
-    width: 100%;
-    font-size: 10px;
-  }
-
-  .summary-table th,
-  .summary-table td {
-    padding: 4px;
-  }
-
+/* Print */
+@media print{
+  #trust-modal,.hbtn,.offline-pill,.sc-cta,.gen-wrap{display:none!important}
+  #dashboard{display:flex!important;min-height:auto!important;padding:1rem!important}
+  #section-view{display:block!important}
+  #summary-page{display:block!important}
+  header{display:flex!important;position:static!important;box-shadow:none!important}
+  .panel{display:block!important}
+  .nw-card,.form-section,.surplus-row,.metric-cell{break-inside:avoid}
+  body{background:#fff;font-size:11px}
+  .form-grid{grid-template-columns:1fr 1fr!important}
+  .sum-hero{background:#0b1829!important;-webkit-print-color-adjust:exact}
 }
 </style>
 </head>
@@ -357,350 +305,521 @@ position: relative;
   <div class="trust-card">
     <div class="trust-icon">🔒</div>
     <h2>Your data stays with you</h2>
-    <p>Runs entirely offline in your browser. Nothing ever leaves this device.</p>
-    <div class="trust-highlight">
-      <div class="point"><div class="dot"></div><span>All data saved in <strong>localStorage</strong> — only on this device</span></div>
-      <div class="point"><div class="dot"></div><span>Zero external requests, fully anonymous</span></div>
-      <div class="point"><div class="dot"></div><span>Print or download as PDF anytime with full values</span></div>
+    <p>This scorecard runs entirely in your browser. No data ever leaves your device — guaranteed.</p>
+    <div class="trust-points">
+      <div class="tp"><div class="tp-dot"></div><span>All values saved to <strong>localStorage</strong> — only on this device</span></div>
+      <div class="tp"><div class="tp-dot"></div><span>Zero network requests, fully anonymous</span></div>
+      <div class="tp"><div class="tp-dot"></div><span>Print or save as PDF anytime with your full data</span></div>
     </div>
-    <button class="btn-trust" onclick="closeTrust()">I understand — open my scorecard</button>
+    <button class="btn-trust" onclick="closeTrust()">Open my scorecard →</button>
   </div>
 </div>
 
 <!-- HEADER -->
 <header id="main-header">
-  <div class="logo"><div class="dot"></div>Finance Doctor</div>
-  <div class="header-actions">
-    <span class="offline-badge">🔒 Offline • local data</span>
-    <button class="btn-icon back-btn" id="backToCardsBtn">◀ Back to Dashboard</button>
-    <button class="btn-icon print-btn" id="printPdfBtn">🖨️ Print / Save as PDF</button>
-    <button class="btn-icon" onclick="clearAll()">🗑️ Clear data</button>
+  <div class="logo">
+    <div class="logo-mark">F</div>
+    Finance Doctor
+  </div>
+  <div class="hdr-right">
+    <span class="offline-pill"><span class="pulse"></span>Offline · local only</span>
+    <button class="hbtn back" id="hdr-back-btn" onclick="handleBack()">← Dashboard</button>
+    <button class="hbtn" id="hdr-edit-btn" style="display:none" onclick="backToEdit()">✏️ Edit</button>
+    <button class="hbtn print" onclick="window.print()">🖨 Print / PDF</button>
+    <button class="hbtn danger" onclick="clearAll()">🗑 Clear</button>
   </div>
 </header>
 
-<!-- HERO: 4 responsive cards -->
-<div id="hero">
-  <div class="overview-grid">
-    <div class="score-card income" onclick="openSection('income')" id="card-income">
-      <div class="card-emoji">💰</div>
-      <div class="card-body">
-        <div class="sc-label income">Monthly Income</div>
-        <div class="sc-value" id="disp-income">₹0</div>
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="dash-hero">
+    <div class="dash-eyebrow">🩺 Finance Doctor</div>
+    <h1>Your Personal<br/><em>Financial Scorecard</em></h1>
+    <p>Enter your numbers across 4 sections to get a complete picture of your financial health.</p>
+  </div>
+  <div class="cards-grid">
+    <div class="score-card c-income" onclick="openSection(0)">
+      <div class="sc-stripe"></div>
+      <div class="sc-icon-wrap">💰</div>
+      <div>
+        <div class="sc-lbl">Monthly Income</div>
+        <div class="sc-val" id="d-income">₹0</div>
         <div class="sc-sub">Net take-home</div>
       </div>
-      <div class="click-hint">↗ Click to edit</div>
+      <div class="sc-cta"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Tap to edit</div>
     </div>
-    <div class="score-card expense" onclick="openSection('expense')" id="card-expense">
-      <div class="card-emoji">🛒</div>
-      <div class="card-body">
-        <div class="sc-label expense">Monthly Expenses</div>
-        <div class="sc-value" id="disp-expense">₹0</div>
-        <div class="sc-sub">Total outflows + EMIs</div>
+    <div class="score-card c-expense" onclick="openSection(1)">
+      <div class="sc-stripe"></div>
+      <div class="sc-icon-wrap">🛒</div>
+      <div>
+        <div class="sc-lbl">Monthly Expenses</div>
+        <div class="sc-val" id="d-expense">₹0</div>
+        <div class="sc-sub">Outflows + EMIs</div>
       </div>
-      <div class="click-hint">↗ Click to edit</div>
+      <div class="sc-cta"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Tap to edit</div>
     </div>
-    <div class="score-card assets" onclick="openSection('assets')" id="card-assets">
-      <div class="card-emoji">💎</div>
-      <div class="card-body">
-        <div class="sc-label assets">Total Assets</div>
-        <div class="sc-value" id="disp-assets">₹0</div>
+    <div class="score-card c-assets" onclick="openSection(2)">
+      <div class="sc-stripe"></div>
+      <div class="sc-icon-wrap">💎</div>
+      <div>
+        <div class="sc-lbl">Total Assets</div>
+        <div class="sc-val" id="d-assets">₹0</div>
         <div class="sc-sub">Wealth total</div>
       </div>
-      <div class="click-hint">↗ Click to edit</div>
+      <div class="sc-cta"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Tap to edit</div>
     </div>
-    <div class="score-card liab" onclick="openSection('liab')" id="card-liab">
-      <div class="card-emoji">🏦</div>
-      <div class="card-body">
-        <div class="sc-label liab">Total Liabilities</div>
-        <div class="sc-value" id="disp-liab">₹0</div>
+    <div class="score-card c-liab" onclick="openSection(3)">
+      <div class="sc-stripe"></div>
+      <div class="sc-icon-wrap">🏦</div>
+      <div>
+        <div class="sc-lbl">Total Liabilities</div>
+        <div class="sc-val" id="d-liab">₹0</div>
         <div class="sc-sub">Total debt</div>
       </div>
-      <div class="click-hint">↗ Click to edit</div>
+      <div class="sc-cta"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Tap to edit</div>
     </div>
   </div>
 </div>
 
-<main id="main-content">
-  <!-- Networth bar with percentage -->
-  <div class="networth-section">
-    <div class="nw-label">NET WORTH</div>
-<div class="nw-value" id="disp-networth">₹0</div>
-
-<div class="nw-bar-wrap" style="margin-top:10px;">
-
-  <!-- SCALE -->
-  <div class="nw-scale">
-    <span>0%</span>
-    <span>50%</span>
-    <span>100%</span>
+<!-- SECTION VIEW -->
+<div id="section-view">
+  <div class="nw-card">
+    <div class="nw-top">
+      <div>
+        <div class="nw-lbl">Net Worth</div>
+        <div class="nw-big" id="disp-networth">₹0</div>
+      </div>
+      <div style="text-align:right">
+        <div class="nw-lbl">Assets : Liabilities</div>
+        <div class="nw-ratio" id="nw-ratio">—</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-scale"><span>0%</span><span>50%</span><span>100%</span></div>
+      <div class="bar-track"><div class="bar-fill" id="nw-bar"><span class="bar-pct" id="nw-pct">0%</span></div></div>
+    </div>
+    <div id="nw-status"></div>
   </div>
 
-  <!-- BAR -->
-  <div class="nw-bar-bg">
-    <div class="nw-bar-inner" id="nw-bar">
-
-      <!-- % TEXT -->
-      <span id="nw-percent-text">0%</span>
-
+  <!-- PANEL 0: INCOME -->
+  <div class="panel" id="p-0">
+    <div class="panel-hdr"><h2>Income &amp; Deductions</h2><p>All figures are monthly averages in ₹</p></div>
+    <div class="form-grid">
+      <div class="form-section">
+        <div class="fs-title">💰 Monthly Income Sources</div>
+        <div class="field"><label>Employment Salary</label><div class="pfx"><input type="number" id="i_salary" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Bonus (avg / month)</label><div class="pfx"><input type="number" id="i_bonus" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Business / Agriculture</label><div class="pfx"><input type="number" id="i_business" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Spouse Income</label><div class="pfx"><input type="number" id="i_spouse" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Rent from Property</label><div class="pfx"><input type="number" id="i_rent" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Dividends / Royalties</label><div class="pfx"><input type="number" id="i_dividends" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Pension / Annuity</label><div class="pfx"><input type="number" id="i_pension" placeholder="0" oninput="calc()"></div></div>
+        <div class="subtotal"><span>Gross Monthly Income</span><strong id="sub-gross">₹0</strong></div>
+      </div>
+      <div class="form-section">
+        <div class="fs-title">➖ Deductions</div>
+        <div class="field"><label>Provident Fund (PF)</label><div class="pfx"><input type="number" id="d_pf" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Pension Contribution</label><div class="pfx"><input type="number" id="d_pension" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Sec 80C (monthly avg)</label><div class="pfx"><input type="number" id="d_80c" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Sec 80D Health Insurance</label><div class="pfx"><input type="number" id="d_80d" placeholder="0" oninput="calc()"></div></div>
+        <div class="subtotal"><span>Total Deductions</span><strong id="sub-ded">₹0</strong></div>
+        <div class="subtotal hi-green" style="margin-top:.5rem"><span>✅ Net Monthly Income</span><strong id="sub-net">₹0</strong></div>
+      </div>
+    </div>
   </div>
 
+  <!-- PANEL 1: EXPENSES -->
+  <div class="panel" id="p-1">
+    <div class="panel-hdr"><h2>Monthly Expenses</h2><p>Living costs + EMI repayments</p></div>
+    <div class="form-grid">
+      <div class="form-section">
+        <div class="fs-title">🛒 Living Expenses</div>
+        <div class="field"><label>Household &amp; Food</label><div class="pfx"><input type="number" id="e_food" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Clothing &amp; Personal</label><div class="pfx"><input type="number" id="e_clothing" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Rent / Housing</label><div class="pfx"><input type="number" id="e_rent" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Utilities &amp; Maintenance</label><div class="pfx"><input type="number" id="e_utilities" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Children Education</label><div class="pfx"><input type="number" id="e_children" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Health &amp; Medical</label><div class="pfx"><input type="number" id="e_health" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Transport / Fuel</label><div class="pfx"><input type="number" id="e_transport" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Appliances Replacement</label><div class="pfx"><input type="number" id="e_appliances" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Entertainment</label><div class="pfx"><input type="number" id="e_entertainment" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Travel &amp; Holidays</label><div class="pfx"><input type="number" id="e_travel" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Car Insurance &amp; Maintenance</label><div class="pfx"><input type="number" id="e_car_ins" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Health Insurance Premium</label><div class="pfx"><input type="number" id="e_health_ins" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Other Expenses</label><div class="pfx"><input type="number" id="e_other" placeholder="0" oninput="calc()"></div></div>
+        <div class="subtotal"><span>Expenses Subtotal</span><strong id="sub-exp">₹0</strong></div>
+      </div>
+      <div class="form-section">
+        <div class="fs-title">🏦 EMIs (Monthly)</div>
+        <div class="field"><label>Home Loan EMI 1</label><div class="pfx"><input type="number" id="emi_home1" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Home Loan EMI 2</label><div class="pfx"><input type="number" id="emi_home2" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Car Loan EMI</label><div class="pfx"><input type="number" id="emi_car" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Personal Loan EMI</label><div class="pfx"><input type="number" id="emi_personal" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Education Loan EMI</label><div class="pfx"><input type="number" id="emi_edu" placeholder="0" oninput="calc()"></div></div>
+        <div class="field"><label>Other EMI</label><div class="pfx"><input type="number" id="emi_other" placeholder="0" oninput="calc()"></div></div>
+        <div class="subtotal"><span>EMIs Subtotal</span><strong id="sub-emi">₹0</strong></div>
+        <div class="subtotal hi-red" style="margin-top:.5rem"><span>🔴 Total Monthly Outflow</span><strong id="sub-total-exp">₹0</strong></div>
+      </div>
+      <div class="surplus-row">
+        <div class="sur-item"><div class="sur-lbl">Net Income</div><div class="sur-val g" id="sur-inc">₹0</div></div>
+        <div class="sur-item"><div class="sur-lbl">Total Expenses</div><div class="sur-val r" id="sur-exp">₹0</div></div>
+        <div class="sur-item"><div class="sur-lbl">Monthly Surplus</div><div class="sur-val g" id="sur-sur">₹0</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 2: ASSETS -->
+  <div class="panel" id="p-2">
+    <div class="panel-hdr"><h2>Assets</h2><p>Current market value of everything you own</p></div>
+    <div class="form-grid">
+      <div class="form-section">
+        <div class="fs-title">💧 Liquidity</div>
+        <div class="field"><label>Savings &amp; Cash</label><div class="pfx"><input type="number" id="a_savings_cash" oninput="calc()"></div></div>
+        <div class="field"><label>Recurring Deposits</label><div class="pfx"><input type="number" id="a_rd" oninput="calc()"></div></div>
+        <div class="field"><label>Short-Term Debt Funds</label><div class="pfx"><input type="number" id="a_stdf" oninput="calc()"></div></div>
+        <div class="subtotal"><span>Liquidity Total</span><strong id="sub-liq">₹0</strong></div>
+      </div>
+      <div class="form-section">
+        <div class="fs-title">🛡️ Safety</div>
+        <div class="field"><label>PPF / EPF</label><div class="pfx"><input type="number" id="a_ppf" oninput="calc()"></div></div>
+        <div class="field"><label>Fixed Deposits</label><div class="pfx"><input type="number" id="a_fd" oninput="calc()"></div></div>
+        <div class="field"><label>NSC / RBI Bonds</label><div class="pfx"><input type="number" id="a_nsc" oninput="calc()"></div></div>
+        <div class="field"><label>Life Insurance (Surrender Value)</label><div class="pfx"><input type="number" id="a_li" oninput="calc()"></div></div>
+        <div class="field"><label>Primary Residence</label><div class="pfx"><input type="number" id="a_primary_home" oninput="calc()"></div></div>
+        <div class="subtotal"><span>Safety Total</span><strong id="sub-saf">₹0</strong></div>
+      </div>
+      <div class="form-section">
+        <div class="fs-title">📈 Growth</div>
+        <div class="field"><label>Gold / Jewellery</label><div class="pfx"><input type="number" id="a_gold" oninput="calc()"></div></div>
+        <div class="field"><label>Stocks</label><div class="pfx"><input type="number" id="a_stocks" oninput="calc()"></div></div>
+        <div class="field"><label>Equity Mutual Funds</label><div class="pfx"><input type="number" id="a_mf" oninput="calc()"></div></div>
+        <div class="field"><label>Real Estate (Investment)</label><div class="pfx"><input type="number" id="a_realty" oninput="calc()"></div></div>
+        <div class="field"><label>Other Assets</label><div class="pfx"><input type="number" id="a_other" oninput="calc()"></div></div>
+        <div class="subtotal"><span>Growth Total</span><strong id="sub-grw">₹0</strong></div>
+      </div>
+      <div class="surplus-row">
+        <div class="sur-item"><div class="sur-lbl">Liquidity</div><div class="sur-val g" id="sur-liq">₹0</div></div>
+        <div class="sur-item"><div class="sur-lbl">Safety</div><div class="sur-val b" id="sur-saf">₹0</div></div>
+        <div class="sur-item"><div class="sur-lbl">💎 Total Assets</div><div class="sur-val b" id="sur-tot-a">₹0</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 3: LIABILITIES -->
+  <div class="panel" id="p-3">
+    <div class="panel-hdr"><h2>Liabilities</h2><p>Outstanding balances and debt</p></div>
+    <div class="form-grid">
+      <div class="form-section">
+        <div class="fs-title">⚡ Short Term</div>
+        <div class="field"><label>Credit Card Outstanding</label><div class="pfx"><input type="number" id="l_cc" oninput="calc()"></div></div>
+        <div class="field"><label>Personal Loans</label><div class="pfx"><input type="number" id="l_personal" oninput="calc()"></div></div>
+        <div class="field"><label>Car Loan (&lt; 3 years remaining)</label><div class="pfx"><input type="number" id="l_car_st" oninput="calc()"></div></div>
+        <div class="field"><label>Tax Dues</label><div class="pfx"><input type="number" id="l_tax" oninput="calc()"></div></div>
+        <div class="subtotal"><span>Short Term Total</span><strong id="sub-st">₹0</strong></div>
+      </div>
+      <div class="form-section">
+        <div class="fs-title">🏠 Long Term</div>
+        <div class="field"><label>Home Loan Principal</label><div class="pfx"><input type="number" id="l_home" oninput="calc()"></div></div>
+        <div class="field"><label>Car Loan (&gt; 3 years remaining)</label><div class="pfx"><input type="number" id="l_car_lt" oninput="calc()"></div></div>
+        <div class="field"><label>Education Loan</label><div class="pfx"><input type="number" id="l_edu_lt" oninput="calc()"></div></div>
+        <div class="subtotal"><span>Long Term Total</span><strong id="sub-lt">₹0</strong></div>
+        <div class="subtotal hi-red" style="margin-top:.5rem"><span>🔴 Total Liabilities</span><strong id="sub-tot-l">₹0</strong></div>
+      </div>
+    </div>
+    <div class="gen-wrap">
+      <button class="btn-generate" onclick="openSummaryPage()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5.5h6M5 10.5h3.5"/></svg>
+        Generate Financial Summary
+      </button>
+    </div>
+  </div>
+
+  <div class="section-nav">
+    <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Previous
+    </button>
+    <div class="nav-center">
+      <span class="nav-label">Section</span>
+      <div class="nav-step" id="step-0" onclick="openSection(0)" title="Income">1</div>
+      <div class="nav-step" id="step-1" onclick="openSection(1)" title="Expenses">2</div>
+      <div class="nav-step" id="step-2" onclick="openSection(2)" title="Assets">3</div>
+      <div class="nav-step" id="step-3" onclick="openSection(3)" title="Liabilities">4</div>
+    </div>
+    <button class="nav-btn" id="btn-next" onclick="navigate(1)">
+      Next
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
 </div>
 
-<div id="nw-status" style="margin-top:8px;font-size:0.85rem;"></div>
+<!-- SUMMARY PAGE -->
+<div id="summary-page">
+  <div class="sum-hero">
+    <div class="sum-hero-eyebrow">🩺 Finance Doctor · Financial Health Report</div>
+    <div class="grade-badge" id="grade-badge">—</div>
+    <h1 id="sum-hero-title">Financial Health Summary</h1>
+    <p id="sum-hero-sub">Based on your entered figures</p>
   </div>
 
-  <!-- INCOME PANEL -->
-  <div class="section-panel" id="panel-income"><div class="panel-header"><div class="panel-title">Income & Deductions</div><div class="panel-tag">Monthly ₹</div></div>
-  <div class="form-grid"><div class="form-section"><div class="fs-title">💰 Monthly Income</div>
-  <div class="field"><label>Employment Salary</label><div class="prefix"><input type="number" id="i_salary" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Bonus (avg)</label><div class="prefix"><input type="number" id="i_bonus" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Business/Agri</label><div class="prefix"><input type="number" id="i_business" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Spouse Income</label><div class="prefix"><input type="number" id="i_spouse" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Rent from Property</label><div class="prefix"><input type="number" id="i_rent" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Dividends/Royalties</label><div class="prefix"><input type="number" id="i_dividends" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Pension/Annuity</label><div class="prefix"><input type="number" id="i_pension" placeholder="0" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>Gross Monthly Income</span><span id="sub-gross-income">₹0</span></div></div>
-  <div class="form-section"><div class="fs-title">➖ Deductions</div>
-  <div class="field"><label>Provident Fund (PF)</label><div class="prefix"><input type="number" id="d_pf" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Pension Contribution</label><div class="prefix"><input type="number" id="d_pension" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Sec 80C (monthly avg)</label><div class="prefix"><input type="number" id="d_80c" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Sec 80D Health Ins.</label><div class="prefix"><input type="number" id="d_80d" placeholder="0" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>Total Deductions</span><span id="sub-deductions">₹0</span></div>
-  <div class="subtotal" style="background:rgba(10,171,134,0.08)"><span>✅ Net Monthly Income</span><span id="sub-net-income" style="font-weight:bold">₹0</span></div></div></div></div>
+  <div class="sum-page-inner">
+    <div class="metrics-strip" id="metrics-strip"></div>
 
-  <!-- EXPENSES PANEL -->
-  <div class="section-panel" id="panel-expense"><div class="panel-header"><div class="panel-title">Monthly Expenses</div><div class="panel-tag">₹</div></div>
-  <div class="form-grid"><div class="form-section"><div class="fs-title">🛒 Living Expenses</div>
-  <div class="field"><label>Household & Food</label><div class="prefix"><input type="number" id="e_food" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Clothing & Personal</label><div class="prefix"><input type="number" id="e_clothing" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Rent / Housing</label><div class="prefix"><input type="number" id="e_rent" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Utilities & Maintenance</label><div class="prefix"><input type="number" id="e_utilities" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Children Education</label><div class="prefix"><input type="number" id="e_children" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Health & Medical</label><div class="prefix"><input type="number" id="e_health" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Transport / Fuel</label><div class="prefix"><input type="number" id="e_transport" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Appliances Replacement</label><div class="prefix"><input type="number" id="e_appliances" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Entertainment</label><div class="prefix"><input type="number" id="e_entertainment" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Travel & Holidays</label><div class="prefix"><input type="number" id="e_travel" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Car Insurance & Maint</label><div class="prefix"><input type="number" id="e_car_ins" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Health Insurance Premium</label><div class="prefix"><input type="number" id="e_health_ins" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Other Expenses</label><div class="prefix"><input type="number" id="e_other" placeholder="0" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>Expenses Subtotal</span><span id="sub-expenses">₹0</span></div></div>
-  <div class="form-section"><div class="fs-title">🏦 EMIs (Monthly)</div>
-  <div class="field"><label>Home Loan EMI 1</label><div class="prefix"><input type="number" id="emi_home1" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Home Loan EMI 2</label><div class="prefix"><input type="number" id="emi_home2" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Car Loan EMI</label><div class="prefix"><input type="number" id="emi_car" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Personal Loan EMI</label><div class="prefix"><input type="number" id="emi_personal" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Education Loan EMI</label><div class="prefix"><input type="number" id="emi_edu" placeholder="0" oninput="calc()"/></div></div>
-  <div class="field"><label>Other EMI</label><div class="prefix"><input type="number" id="emi_other" placeholder="0" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>EMIs Subtotal</span><span id="sub-emis">₹0</span></div>
-  <div class="subtotal" style="background:rgba(224,59,59,0.05)"><span>🔴 Total Monthly Outflow</span><span id="sub-total-expense">₹0</span></div></div>
-  <div class="surplus-card"><div><div class="si-label">Net Monthly Income</div><div class="si-value green" id="sur-income">₹0</div></div><div><div class="si-label">Total Expenses</div><div class="si-value red" id="sur-expense">₹0</div></div><div><div class="si-label">Monthly Surplus</div><div class="si-value green" id="sur-surplus">₹0</div></div></div></div></div>
+    <div class="insight-grid" id="insight-grid"></div>
 
-  <!-- ASSETS PANEL -->
-  <div class="section-panel" id="panel-assets"><div class="panel-header"><div class="panel-title">Assets</div><div class="panel-tag">Market Value ₹</div></div>
-  <div class="form-grid"><div class="form-section"><div class="fs-title">💧 Liquidity</div><div class="field"><label>Savings & Cash</label><div class="prefix"><input type="number" id="a_savings_cash" oninput="calc()"/></div></div>
-  <div class="field"><label>Recurring Deposits</label><div class="prefix"><input type="number" id="a_rd" oninput="calc()"/></div></div>
-  <div class="field"><label>Short-Term Debt Funds</label><div class="prefix"><input type="number" id="a_stdf" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>Liquidity Total</span><span id="sub-a">₹0</span></div></div>
-  <div class="form-section"><div class="fs-title">🛡️ Safety</div><div class="field"><label>PPF / EPF</label><div class="prefix"><input type="number" id="a_ppf" oninput="calc()"/></div></div>
-  <div class="field"><label>Fixed Deposits</label><div class="prefix"><input type="number" id="a_fd" oninput="calc()"/></div></div>
-  <div class="field"><label>NSC / RBI Bonds</label><div class="prefix"><input type="number" id="a_nsc" oninput="calc()"/></div></div>
-  <div class="field"><label>Life Insurance (SV)</label><div class="prefix"><input type="number" id="a_li" oninput="calc()"/></div></div>
-  <div class="field"><label>Primary Residence</label><div class="prefix"><input type="number" id="a_primary_home" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>Safety Total</span><span id="sub-b">₹0</span></div></div>
-  <div class="form-section"><div class="fs-title">📈 Growth</div>
-  <div class="field"><label>Gold / Jewellery</label><div class="prefix"><input type="number" id="a_gold" oninput="calc()"/></div></div>
-  <div class="field"><label>Stocks</label><div class="prefix"><input type="number" id="a_stocks" oninput="calc()"/></div></div>
-  <div class="field"><label>Equity Mutual Funds</label><div class="prefix"><input type="number" id="a_mf" oninput="calc()"/></div></div>
-  <div class="field"><label>Real Estate (Inv)</label><div class="prefix"><input type="number" id="a_realty" oninput="calc()"/></div></div>
-  <div class="field"><label>Other Assets</label><div class="prefix"><input type="number" id="a_other" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>Growth Total</span><span id="sub-c">₹0</span></div></div>
-  <div class="surplus-card" style="background:rgba(26,111,212,0.04)"><div><span>Liquidity</span><div id="sur-a">₹0</div></div><div><span>Safety</span><div id="sur-b">₹0</div></div><div><span>💎 Total Assets</span><div id="sur-total-assets">₹0</div></div></div></div></div>
+    <div class="analysis-card">
+      <div class="analysis-card-hdr">📋 Detailed Metrics &amp; Benchmarks</div>
+      <div style="overflow-x:auto">
+        <table class="sc-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Your Figure</th>
+              <th>Benchmark</th>
+              <th>Status</th>
+              <th>Insight</th>
+            </tr>
+          </thead>
+          <tbody id="sum-tbody"></tbody>
+        </table>
+      </div>
+    </div>
 
-  <!-- LIABILITIES PANEL -->
-  <div class="section-panel" id="panel-liab"><div class="panel-header"><div class="panel-title">Liabilities</div><div class="panel-tag">Outstanding ₹</div></div>
-  <div class="form-grid"><div class="form-section"><div class="fs-title">⚡ Short Term</div>
-  <div class="field"><label>Credit Card Outstanding</label><div class="prefix"><input type="number" id="l_cc" oninput="calc()"/></div></div>
-  <div class="field"><label>Personal Loans</label><div class="prefix"><input type="number" id="l_personal" oninput="calc()"/></div></div>
-  <div class="field"><label>Car Loan (&lt;3yrs)</label><div class="prefix"><input type="number" id="l_car_st" oninput="calc()"/></div></div>
-  <div class="field"><label>Tax Dues</label><div class="prefix"><input type="number" id="l_tax" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>Short Term Total</span><span id="sub-st">₹0</span></div></div>
-  <div class="form-section"><div class="fs-title">🏠 Long Term</div>
-  <div class="field"><label>Home Loan Principal</label><div class="prefix"><input type="number" id="l_home" oninput="calc()"/></div></div>
-  <div class="field"><label>Car Loan Principal (&gt;3y)</label><div class="prefix"><input type="number" id="l_car_lt" oninput="calc()"/></div></div>
-  <div class="field"><label>Education Loan</label><div class="prefix"><input type="number" id="l_edu_lt" oninput="calc()"/></div></div>
-  <div class="subtotal"><span>Long Term Total</span><span id="sub-lt">₹0</span></div>
-  <div class="subtotal"><span>🔴 Total Liabilities</span><span id="sub-total-liab">₹0</span></div></div>
-  <div class="summary-section"><div class="fs-title">📊 Financial Health Scorecard</div><div style="overflow-x:auto"><table class="summary-table" id="summary-table"><thead><tr><th>Metric</th><th>Your Figure</th><th>Benchmark</th><th>Status</th><th>Insight</th></tr></thead><tbody id="summary-tbody"></tbody></table></div></div></div></div>
-</main>
+    <div class="sum-footer-note">
+      All calculations are based on data entered locally on this device. For personalised advice, consult a certified financial planner.
+    </div>
+  </div>
+</div>
 
 <script>
-const SECTIONS = ['income','expense','assets','liab'];
-let anyOpened = false;
-
-function openSection(id){
-  if(!anyOpened){
-    anyOpened = true;
-    document.getElementById('hero').classList.add('collapsed');
-    document.getElementById('main-header').classList.add('visible');
-    document.getElementById('main-content').classList.add('visible');
-  }
-  
-  // Remove active class from all cards and hide all panels
-  SECTIONS.forEach(s=>{
-    document.getElementById('card-'+s).classList.remove('active');
-    document.getElementById('panel-'+s).classList.remove('visible');
-  });
-  
-  // Activate clicked section
-  document.getElementById('card-'+id).classList.add('active');
-  document.getElementById('panel-'+id).classList.add('visible');
-  setTimeout(()=>document.getElementById('panel-'+id).scrollIntoView({behavior:'smooth',block:'start'}),60);
-}
-
-function backToCards(){
-  // Remove active state from all cards and panels
-  SECTIONS.forEach(s=>{
-    document.getElementById('card-'+s).classList.remove('active');
-    document.getElementById('panel-'+s).classList.remove('visible');
-  });
-
-  // 🔥 Restore original layout
-  document.getElementById('hero').classList.remove('collapsed');
-  document.getElementById('main-header').classList.remove('visible');
-  document.getElementById('main-content').classList.remove('visible');
-
-  // Reset flag
-  anyOpened = false;
-
-  // Scroll to top cards
-  document.getElementById('hero').scrollIntoView({
-    behavior:'smooth',
-    block:'start'
-  });
-}
-  
-
+const SECTION_NAMES = ['Income','Expenses','Assets','Liabilities'];
+let currentSection = 0;
 
 function fmt(n){
-  if(isNaN(n)||n===null||n==='') return '₹0';
-  const abs=Math.abs(n);
-  if(abs>=1e7) return (n<0?'-':'')+'₹'+(abs/1e7).toFixed(2)+' Cr';
-  if(abs>=1e5) return (n<0?'-':'')+'₹'+(abs/1e5).toFixed(2)+' L';
-  if(abs>=1e3) return (n<0?'-':'')+'₹'+(abs/1e3).toFixed(1)+' K';
-  return (n<0?'-':'')+'₹'+Math.round(abs).toLocaleString('en-IN');
+  if(isNaN(n)||n===null||n===undefined)return'₹0';
+  const abs=Math.abs(n),pre=n<0?'-':'';
+  if(abs>=1e7)return pre+'₹'+(abs/1e7).toFixed(2)+' Cr';
+  if(abs>=1e5)return pre+'₹'+(abs/1e5).toFixed(2)+' L';
+  if(abs>=1e3)return pre+'₹'+(abs/1e3).toFixed(1)+' K';
+  return pre+'₹'+Math.round(abs).toLocaleString('en-IN');
 }
-function g(id){ return parseFloat(document.getElementById(id)?.value) || 0; }
-function s(id,val){ let el=document.getElementById(id); if(el) el.textContent=val; }
+function g(id){return parseFloat(document.getElementById(id)?.value)||0;}
+function s(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
+
+function showView(name){
+  // name: 'dashboard' | 'section' | 'summary'
+  document.getElementById('dashboard').style.display = name==='dashboard'?'flex':'none';
+  const sv = document.getElementById('section-view');
+  sv.style.display = name==='section'?'block':'none';
+  const sp = document.getElementById('summary-page');
+  sp.classList.toggle('visible', name==='summary');
+  document.getElementById('main-header').classList.toggle('visible', name!=='dashboard');
+
+  // Header back button label & edit button
+  const backBtn = document.getElementById('hdr-back-btn');
+  const editBtn = document.getElementById('hdr-edit-btn');
+  if(name==='summary'){
+    backBtn.textContent = '← Dashboard';
+    editBtn.style.display = 'inline-flex';
+  } else {
+    backBtn.textContent = '← Dashboard';
+    editBtn.style.display = 'none';
+  }
+}
+
+function openSection(idx){
+  currentSection=idx;
+  showView('section');
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('visible',i===idx));
+  document.querySelectorAll('.nav-step').forEach((s,i)=>{
+    s.className='nav-step';
+    if(i===idx) s.classList.add('active-'+idx);
+  });
+  document.getElementById('btn-prev').disabled=(idx===0);
+  document.getElementById('btn-next').disabled=(idx===3);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function navigate(dir){
+  const next=currentSection+dir;
+  if(next>=0&&next<=3) openSection(next);
+}
+
+function handleBack(){
+  // If on summary, go back to edit (liabilities section); else go to dashboard
+  if(document.getElementById('summary-page').classList.contains('visible')){
+    backToEdit();
+  } else {
+    backToDash();
+  }
+}
+
+function backToDash(){
+  showView('dashboard');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function backToEdit(){
+  openSection(3);
+}
 
 function calc(){
   const gross=g('i_salary')+g('i_bonus')+g('i_business')+g('i_spouse')+g('i_rent')+g('i_dividends')+g('i_pension');
   const ded=g('d_pf')+g('d_pension')+g('d_80c')+g('d_80d');
-  const netIncome=gross-ded;
+  const netInc=gross-ded;
   const expenses=g('e_food')+g('e_clothing')+g('e_rent')+g('e_utilities')+g('e_children')+g('e_health')+g('e_transport')+g('e_appliances')+g('e_entertainment')+g('e_travel')+g('e_car_ins')+g('e_health_ins')+g('e_other');
   const emis=g('emi_home1')+g('emi_home2')+g('emi_car')+g('emi_personal')+g('emi_edu')+g('emi_other');
   const totalExp=expenses+emis;
-  const surplus=netIncome-totalExp;
-  const subA=g('a_savings_cash')+g('a_rd')+g('a_stdf');
-  const subB=g('a_ppf')+g('a_fd')+g('a_nsc')+g('a_li')+g('a_primary_home');
-  const subC=g('a_gold')+g('a_stocks')+g('a_mf')+g('a_realty')+g('a_other');
-  const totalAssets=subA+subB+subC;
+  const surplus=netInc-totalExp;
+  const subLiq=g('a_savings_cash')+g('a_rd')+g('a_stdf');
+  const subSaf=g('a_ppf')+g('a_fd')+g('a_nsc')+g('a_li')+g('a_primary_home');
+  const subGrw=g('a_gold')+g('a_stocks')+g('a_mf')+g('a_realty')+g('a_other');
+  const totalAssets=subLiq+subSaf+subGrw;
   const subST=g('l_cc')+g('l_personal')+g('l_car_st')+g('l_tax');
   const subLT=g('l_home')+g('l_car_lt')+g('l_edu_lt');
   const totalLiab=subST+subLT;
   const netWorth=totalAssets-totalLiab;
-  // ✅ Calculate percentage
-const totalCapital = totalAssets + totalLiab;
-
-let percent = 0;
-
-if(totalCapital > 0){
-  percent = (totalAssets / totalCapital) * 100;
-}
-
-percent = Math.min(100, percent);
-  const savingsRate=gross?((surplus/gross)*100):0;
-  
-
-  
-  // Update UI elements
-  s('sub-gross-income',fmt(gross)); s('sub-deductions',fmt(ded)); s('sub-net-income',fmt(netIncome));
-  s('sub-expenses',fmt(expenses)); s('sub-emis',fmt(emis)); s('sub-total-expense',fmt(totalExp));
-  s('sur-income',fmt(netIncome)); s('sur-expense',fmt(totalExp)); s('sur-surplus',fmt(surplus));
-  s('sub-a',fmt(subA)); s('sub-b',fmt(subB)); s('sub-c',fmt(subC));
-  s('sur-a',fmt(subA)); s('sur-b',fmt(subB)); s('sur-total-assets',fmt(totalAssets));
-  s('sub-st',fmt(subST)); s('sub-lt',fmt(subLT)); s('sub-total-liab',fmt(totalLiab));
-  s('disp-income',fmt(netIncome)); s('disp-expense',fmt(totalExp)); s('disp-assets',fmt(totalAssets)); s('disp-liab',fmt(totalLiab));
-  
-  const nwEl=document.getElementById('disp-networth'); 
-  nwEl.textContent=fmt(netWorth); 
-  nwEl.className='nw-value '+(netWorth>=0?'positive':'negative');
-  
-  // Update bar width and percentage display
-const bar = document.getElementById('nw-bar');
-const text = document.getElementById('nw-percent-text');
-
-bar.style.width = percent + '%';
-text.textContent = percent.toFixed(0) + '%';
-
-/* Fix visibility when bar is small */
-if(percent < 15){
-  text.style.color = "var(--text)";
-}else{
-  text.style.color = "#fff";
-}
-const statusEl = document.getElementById('nw-status');
-
-if(percent >= 80){
-  statusEl.textContent = "💪 Strong financial position (low debt)";
-  statusEl.style.color = "var(--accent-green)";
-}
-else if(percent >= 50){
-  statusEl.textContent = "🙂 Balanced (assets ≈ liabilities)";
-  statusEl.style.color = "var(--accent-blue)";
-}
-else if(percent > 0){
-  statusEl.textContent = "⚠️ High liabilities compared to assets";
-  statusEl.style.color = "var(--accent-amber)";
-}
-else{
-  statusEl.textContent = "🚨 No assets yet — start building wealth";
-  statusEl.style.color = "var(--accent-red)";
-}
-
- 
+  const savRate=gross?(surplus/gross)*100:0;
+  const totalCap=totalAssets+totalLiab;
+  const pct=totalCap>0?Math.min(100,(totalAssets/totalCap)*100):0;
   const alRatio=totalLiab?totalAssets/totalLiab:null;
-  const rows=[
-    ['Monthly Income',fmt(netIncome),'—','→ edit','Net take-home'],
-    ['Monthly Expenses',fmt(totalExp),'—','→ edit','Incl. EMIs'],
-    ['Monthly Surplus',fmt(surplus),'>0',surplus>0?'✅ Positive':'⚠ Negative','Savings engine'],
-    ['Savings Rate',savingsRate.toFixed(1)+'%','>20%',savingsRate>=20?'✅ On track':savingsRate>0?'⚠ Below 20%':'→ Fill','Target 20%+'],
-    ['Total Assets',fmt(totalAssets),'—','→ edit','Wealth sum'],
-    ['Total Liabilities',fmt(totalLiab),'—','→ edit','Total debt'],
-    ['Net Worth',fmt(netWorth),'>0',netWorth>0?'✅ Positive':netWorth<0?'⚠ Negative':'→ Fill','Assets - Liabilities'],
-    ['Asset-to-Liability',alRatio?alRatio.toFixed(2)+'x':'Debt Free','>2x',alRatio===null?'✅ Debt Free':alRatio>=2?'✅ Healthy':alRatio>=1?'⚠ Moderate':'⚠ High Debt','Ideal >2x']
-  ];
-  const tb=document.getElementById('summary-tbody'); tb.innerHTML='';
-  rows.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r[0]}</td><td><strong>${r[1]}</strong></td><td style="color:var(--muted)">${r[2]}</td><td class="${r[3].startsWith('✅')?'status-ok':r[3].startsWith('⚠')?'status-warn':'status-fill'}">${r[3]}</td><td class="td-insight">${r[4]}</td>`; tb.appendChild(tr); });
+
+  s('sub-gross',fmt(gross));s('sub-ded',fmt(ded));s('sub-net',fmt(netInc));
+  s('sub-exp',fmt(expenses));s('sub-emi',fmt(emis));s('sub-total-exp',fmt(totalExp));
+  s('sur-inc',fmt(netInc));s('sur-exp',fmt(totalExp));s('sur-sur',fmt(surplus));
+  s('sub-liq',fmt(subLiq));s('sub-saf',fmt(subSaf));s('sub-grw',fmt(subGrw));
+  s('sur-liq',fmt(subLiq));s('sur-saf',fmt(subSaf));s('sur-tot-a',fmt(totalAssets));
+  s('sub-st',fmt(subST));s('sub-lt',fmt(subLT));s('sub-tot-l',fmt(totalLiab));
+  s('d-income',fmt(netInc));s('d-expense',fmt(totalExp));
+  s('d-assets',fmt(totalAssets));s('d-liab',fmt(totalLiab));
+
+  const nwEl=document.getElementById('disp-networth');
+  nwEl.textContent=fmt(netWorth);
+  nwEl.className='nw-big '+(netWorth>=0?'pos':'neg');
+  const bar=document.getElementById('nw-bar');
+  const pctTxt=document.getElementById('nw-pct');
+  bar.style.width=pct+'%';
+  pctTxt.textContent=pct.toFixed(0)+'%';
+  pctTxt.style.color=pct<18?'var(--text)':'#fff';
+  s('nw-ratio',alRatio?alRatio.toFixed(2)+'x (assets : liab)':'No liabilities');
+  const st=document.getElementById('nw-status');
+  if(pct>=80){st.textContent='💪 Strong position — low debt relative to assets';st.style.color='var(--green)';}
+  else if(pct>=50){st.textContent='🙂 Balanced — assets roughly cover liabilities';st.style.color='var(--blue)';}
+  else if(pct>0){st.textContent='⚠️ High liabilities compared to assets';st.style.color='var(--amber)';}
+  else{st.textContent='🚨 No assets recorded — start building wealth';st.style.color='var(--red)';}
+
+  window._fd={gross,ded,netInc,expenses,emis,totalExp,surplus,subLiq,subSaf,subGrw,totalAssets,subST,subLT,totalLiab,netWorth,savRate,alRatio,pct};
   saveData();
 }
-function gatherData(){ let data={}; document.querySelectorAll('input[id]').forEach(el=>{ data[el.id]=el.value; }); return data; }
-function saveData(){ try{ localStorage.setItem('fd_scorecard',JSON.stringify(gatherData())); }catch(e){} }
-function loadData(){ try{ let raw=localStorage.getItem('fd_scorecard'); if(raw){ let data=JSON.parse(raw); Object.keys(data).forEach(id=>{ let el=document.getElementById(id); if(el) el.value=data[id]; }); calc(); } }catch(e){} }
-function clearAll(){ if(confirm('Delete all local data? Reset everything.')){ localStorage.removeItem('fd_scorecard'); document.querySelectorAll('input[id]').forEach(el=>el.value=''); calc(); } }
-function closeTrust(){ document.getElementById('trust-modal').style.display='none'; localStorage.setItem('fd_trust_ok','1'); }
 
-function printPDF(){
-  window.print();
+function scoreGrade(d){
+  let pts=0;
+  if(d.surplus>0)pts+=25;
+  if(d.savRate>=20)pts+=25; else if(d.savRate>0)pts+=10;
+  if(d.netWorth>0)pts+=25;
+  if(d.alRatio===null||d.alRatio>=2)pts+=25; else if(d.alRatio>=1)pts+=12;
+  if(pts>=90)return{grade:'A+',color:'#00a878',bg:'rgba(0,168,120,.15)',label:'Excellent financial health'};
+  if(pts>=75)return{grade:'A',color:'#00a878',bg:'rgba(0,168,120,.15)',label:'Very good financial health'};
+  if(pts>=60)return{grade:'B',color:'#5498ff',bg:'rgba(26,95,212,.15)',label:'Good — room to improve'};
+  if(pts>=40)return{grade:'C',color:'#f5a832',bg:'rgba(212,121,10,.15)',label:'Fair — needs attention'};
+  return{grade:'D',color:'#f0607a',bg:'rgba(217,53,80,.15)',label:'Needs urgent action'};
 }
 
-document.getElementById('backToCardsBtn').addEventListener('click', backToCards);
-document.getElementById('printPdfBtn').addEventListener('click', printPDF);
+function openSummaryPage(){
+  const d=window._fd||{};
+  const grd=scoreGrade(d);
+
+  // Grade badge
+  const gb=document.getElementById('grade-badge');
+  gb.textContent=grd.grade;
+  gb.style.color=grd.color;
+  gb.style.borderColor=grd.color;
+  gb.style.background=grd.bg;
+
+  document.getElementById('sum-hero-title').textContent='Financial Health Summary';
+  document.getElementById('sum-hero-sub').textContent=grd.label;
+
+  // Metrics strip
+  const metrics=[
+    {label:'Net Monthly Income',val:fmt(d.netInc||0),color:'var(--green)'},
+    {label:'Monthly Surplus',val:fmt(d.surplus||0),color:(d.surplus||0)>=0?'var(--green)':'var(--red)'},
+    {label:'Total Assets',val:fmt(d.totalAssets||0),color:'var(--blue)'},
+    {label:'Total Liabilities',val:fmt(d.totalLiab||0),color:'var(--amber)'},
+    {label:'Net Worth',val:fmt(d.netWorth||0),color:(d.netWorth||0)>=0?'var(--green)':'var(--red)'},
+    {label:'Savings Rate',val:((d.savRate||0).toFixed(1))+'%',color:(d.savRate||0)>=20?'var(--green)':'var(--amber)'},
+  ];
+  document.getElementById('metrics-strip').innerHTML=metrics.map(m=>`
+    <div class="metric-cell">
+      <div class="mc-lbl">${m.label}</div>
+      <div class="mc-val" style="color:${m.color}">${m.val}</div>
+    </div>`).join('');
+
+  // Insight cards
+  const insights=[];
+  if((d.surplus||0)>0){insights.push({type:'ok',icon:'✅',title:'Positive Cash Flow',body:`You save ${fmt(d.surplus)} each month — excellent foundation for wealth building.`});}
+  else{insights.push({type:'bad',icon:'🚨',title:'Negative Cash Flow',body:'Expenses exceed income. Review discretionary spending immediately.'});}
+  if((d.savRate||0)>=20){insights.push({type:'ok',icon:'📈',title:'Strong Savings Rate',body:`Your ${(d.savRate||0).toFixed(1)}% savings rate meets the 20% benchmark.`});}
+  else if((d.savRate||0)>0){insights.push({type:'warn',icon:'⚠️',title:'Low Savings Rate',body:`${(d.savRate||0).toFixed(1)}% is below the recommended 20% of gross income.`});}
+  if((d.subLiq||0)>=(d.totalExp||0)*3){insights.push({type:'ok',icon:'💧',title:'Emergency Fund Adequate',body:'Liquid assets cover 3+ months of expenses — solid safety net.'});}
+  else{insights.push({type:'warn',icon:'🏦',title:'Build Emergency Fund',body:`Target ${fmt((d.totalExp||0)*3)} liquid savings (3 months of expenses).`});}
+  if((d.netWorth||0)>0){insights.push({type:'ok',icon:'💎',title:'Positive Net Worth',body:'Assets exceed liabilities. Keep compounding your wealth.'});}
+  else{insights.push({type:'bad',icon:'📉',title:'Negative Net Worth',body:'Liabilities outweigh assets. Focus on debt reduction and saving.'});}
+
+  document.getElementById('insight-grid').innerHTML=insights.map(ins=>`
+    <div class="insight-card ${ins.type}">
+      <div class="ins-icon">${ins.icon}</div>
+      <div class="ins-title">${ins.title}</div>
+      <div class="ins-body">${ins.body}</div>
+    </div>`).join('');
+
+  // Table rows
+  const rows=[
+    ['Monthly Surplus',fmt(d.surplus||0),'>₹0',(d.surplus||0)>0?'✅ Positive':'⚠ Negative','Core savings engine'],
+    ['Savings Rate',((d.savRate||0).toFixed(1))+'%','>20%',(d.savRate||0)>=20?'✅ On track':(d.savRate||0)>0?'⚠ Below 20%':'→ Fill data','Aim for 20%+ of gross'],
+    ['Net Worth',fmt(d.netWorth||0),'>0',(d.netWorth||0)>0?'✅ Positive':(d.netWorth||0)<0?'⚠ Negative':'→ Fill data','Assets − Liabilities'],
+    ['Total Assets',fmt(d.totalAssets||0),'—','→','Sum of all wealth'],
+    ['Total Liabilities',fmt(d.totalLiab||0),'—','→','Sum of all debt'],
+    ['Asset-to-Liability',d.alRatio?d.alRatio.toFixed(2)+'x':'Debt Free','>2x',d.alRatio===null?'✅ Debt Free':d.alRatio>=2?'✅ Healthy':d.alRatio>=1?'⚠ Moderate':'⚠ High Debt','Ideal >2x'],
+    ['Emergency Fund',fmt(d.subLiq||0),'3–6 months expenses',(d.subLiq||0)>=(d.totalExp||0)*3?'✅ Adequate':'⚠ Build fund','Liquid buffer'],
+  ];
+  document.getElementById('sum-tbody').innerHTML=rows.map(r=>`
+    <tr>
+      <td>${r[0]}</td>
+      <td><strong>${r[1]}</strong></td>
+      <td style="color:var(--muted)">${r[2]}</td>
+      <td class="${r[3].startsWith('✅')?'st-ok':r[3].startsWith('⚠')?'st-warn':r[3]==='→'?'st-fill':'st-na'}">${r[3]}</td>
+      <td style="color:var(--muted);font-size:.78rem">${r[4]}</td>
+    </tr>`).join('');
+
+  showView('summary');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function saveData(){
+  try{const data={};document.querySelectorAll('input[id]').forEach(el=>{data[el.id]=el.value;});localStorage.setItem('fd_v3',JSON.stringify(data));}catch(e){}
+}
+function loadData(){
+  try{const raw=localStorage.getItem('fd_v3');if(raw){const data=JSON.parse(raw);Object.keys(data).forEach(id=>{const el=document.getElementById(id);if(el)el.value=data[id];});calc();}}catch(e){}
+}
+function clearAll(){
+  if(confirm('Delete all local data and reset the scorecard?')){
+    localStorage.removeItem('fd_v3');
+    document.querySelectorAll('input[id]').forEach(el=>el.value='');
+    calc();
+    backToDash();
+  }
+}
+function closeTrust(){
+  document.getElementById('trust-modal').style.display='none';
+  localStorage.setItem('fd_trust_v3','1');
+}
 
 window.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('fd_trust_ok')==='1') document.getElementById('trust-modal').style.display='none';
+  if(localStorage.getItem('fd_trust_v3')==='1'){
+    document.getElementById('trust-modal').style.display='none';
+  }
   loadData();
-  document.querySelectorAll('input').forEach(el=>{ el.addEventListener('change',saveData); });
+  window._fd=window._fd||{};
 });
 </script>
 </body>
